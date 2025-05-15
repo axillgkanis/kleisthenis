@@ -1,2 +1,1 @@
-# kleisthenis
-A project for 8th semester on CEID upatras
+# Software Tecnhology's project in 8th semester on CEID, University of Patras
