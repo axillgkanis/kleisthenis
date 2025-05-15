@@ -3,6 +3,7 @@ from tkinter import filedialog, messagebox
 import json, os
 
 # Colors
+
 BG_COLOR = "#f9fafb"
 SIDEBAR_COLOR = "#e0e7ff"
 CONTENT_BG = "#ffffff"
