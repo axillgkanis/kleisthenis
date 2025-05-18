@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import messagebox
+from dialog_screens.authentication_popup import AuthenticationPopup
+import re
 
 class LoginScreen(tk.Frame):
     def __init__(self, parent, on_submit_callback=None):
@@ -10,28 +12,28 @@ class LoginScreen(tk.Frame):
         self.is_admin = tk.BooleanVar()
         self.email = tk.StringVar()
         self.admin_code = tk.StringVar()
-        self.show_password = False  # αρχική κατάσταση: κωδικός κρυφός
+        self.show_password = False 
 
-        # Παρακολούθηση αλλαγής στο email
+        
         self.email.trace_add("write", self.on_email_change)
 
         self.create_widgets()
 
     def create_widgets(self):
-        # Logo και τίτλος
+        
         tk.Label(self, text="LOGO", font=("Helvetica", 16, "bold"), fg="white", bg="#1e1e1e").pack(pady=(30, 10))
         tk.Label(self, text="LOGIN", font=("Helvetica", 12, "bold"), fg="white", bg="#1e1e1e").pack(pady=(0, 10))
 
-        # Πεδίο Email
+        
         tk.Label(self, text="email:", fg="white", bg="#1e1e1e").pack()
         tk.Entry(self, textvariable=self.email, width=30).pack(pady=(0, 10))
 
-        # Επιλογή Admin
+        
         tk.Checkbutton(self, text="Are you an admin?", variable=self.is_admin,
                        command=self.toggle_admin_entry, fg="white", bg="#1e1e1e",
                        selectcolor="#1e1e1e").pack(pady=5)
 
-        # Frame για admin code + μάτι
+
         self.admin_frame = tk.Frame(self, bg="#1e1e1e")
         self.admin_entry = tk.Entry(self.admin_frame, textvariable=self.admin_code, width=25, show="*")
         self.admin_entry.pack(side="left", padx=(0, 5))
@@ -46,7 +48,7 @@ class LoginScreen(tk.Frame):
         )
         self.eye_button.pack(side="left")
 
-        # Submit κουμπί (disabled από την αρχή)
+
         self.submit_button = tk.Button(
             self,
             text="SUBMIT",
@@ -85,12 +87,9 @@ class LoginScreen(tk.Frame):
         email = self.email.get()
         is_admin = self.is_admin.get()
         code = self.admin_code.get() if is_admin else None
+        pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$'
+        if not re.match(pattern, email):
+            messagebox.showerror("Invalid Email", "Please enter a valid email address.")
+            return
 
-        msg = f"Email: {email}\nAdmin: {is_admin}"
-        if is_admin:
-            msg += f"\nCode: {code}"
-
-        messagebox.showinfo("Submitted", msg)
-
-        if self.on_submit_callback:
-            self.on_submit_callback()
+        AuthenticationPopup(self, on_success_callback=self.on_submit_callback)
