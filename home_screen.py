@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
-#from main_screen.dialog_screens.announcement import AnnouncementsPopup
+from dialog_screens.punish_user import PunishUserPopup
+from dialog_screens.set_email_regex_popup import SetEmailRegexPopup
 import json, os
 
 # Colors
@@ -165,6 +166,14 @@ def show_view_frames():
         tk.Button(actions, text="Edit", command=lambda idx=i: show_propose_view(data[idx], idx),
                   bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 10)).pack(side="right", padx=5)
 
+# Punish User View
+def open_punish_popup():
+    PunishUserPopup(root)
+
+# Set Email Regex View
+def open_email_regex_popup():
+    SetEmailRegexPopup(root)
+
 # Sidebar buttons
 tk.Label(sidebar, text="Menu", font=("Helvetica", 16, "bold"), bg=SIDEBAR_COLOR).pack(pady=20)
 
@@ -176,11 +185,14 @@ tk.Button(sidebar, text="Propose Frame", command=lambda: show_propose_view(),
 
 tk.Button(sidebar, text="View Frames", command=show_view_frames,
           bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
+tk.Button(sidebar, text="Punish User", command=open_punish_popup,
+          bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
+
+tk.Button(sidebar, text="Set Email Regex", command=open_email_regex_popup,
+          bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
 
 tk.Button(sidebar, text="Exit", command=root.destroy,
           bg="#e5e7eb", fg="black", font=("Helvetica", 12), width=18).pack(pady=5)
 
 
-def show_announcements_popup():
-    announcement(root)
 root.mainloop()
