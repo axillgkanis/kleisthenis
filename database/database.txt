@@ -5,10 +5,10 @@ CREATE DATABASE IF NOT EXISTS cleisthenes_database;
 USE cleisthenes_database;
 
 -- Create a new user
-CREATE USER 'dbManager'@'localhost' IDENTIFIED BY '1234';
+CREATE USER IF NOT EXISTS 'dbManager'@'localhost' IDENTIFIED BY '1234';
 
 -- Grant privileges to the user
-GRANT ALL PRIVILEGES ON announcements.* TO 'dbManager'@'localhost';
+GRANT ALL PRIVILEGES ON cleisthenes_database.* TO 'dbManager'@'localhost';
 
 -- Apply the privileges
 FLUSH PRIVILEGES;
@@ -19,4 +19,41 @@ CREATE TABLE IF NOT EXISTS announcements (
     title VARCHAR(255) NOT NULL,
     body TEXT NOT NULL,
     date_created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS oneTimePassword(
+	otp INT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS adminPassword(
+	adminPassword VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS frameworks(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+	title VARCHAR(255) NOT NULL,
+    body VARCHAR(255) NOT NULL,
+    approved INT(1) NOT NULL DEFAULT 0,
+    vote INT(1) NOT NULL DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS meetings(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+	meetingDate DATE NOT NULL,
+    startTime TIME NOT NULL,
+    endTime TIME NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS penalty(
+	email VARCHAR(255) PRIMARY KEY,
+    period INT NOT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS emailRegex(
+--     id TINYINT PRIMARY KEY CHECK (id = 1), to have only one accepted type of emails
+	username VARCHAR(255) NOT NULL,
+    mailServer VARCHAR(255) NOT NULL,
+    domain VARCHAR(255) NOT NULL
 );
