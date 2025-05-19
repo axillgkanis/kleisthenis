@@ -1,0 +1,49 @@
+{
+    "chain": [
+        {
+            "index": 0,
+            "timestamp": 1747316614.7601306,
+            "data": {
+                "block_type": "genesis",
+                "message": "Genesis Block"
+            },
+            "previous_hash": "0",
+            "nonce": 175,
+            "hash": "006eb3b30a3417f1728355ebf4712a718a876ef8964e51e3d9b272db064d3c22"
+        },
+        {
+            "index": 1,
+            "timestamp": 1747316614.764519,
+            "data": {
+                "block_type": "topic",
+                "topic_id": "topic-1",
+                "title": "Best Programming Language",
+                "description": "Vote for your favorite programming language",
+                "options": [
+                    "Python",
+                    "JavaScript",
+                    "Java",
+                    "C++",
+                    "Go"
+                ]
+            },
+            "previous_hash": "006eb3b30a3417f1728355ebf4712a718a876ef8964e51e3d9b272db064d3c22",
+            "nonce": 115,
+            "hash": "008c6a698079a3d456a81976a8259480209e770612a8ae5d3fe7859ed4a027e2"
+        },
+        {
+            "index": 2,
+            "timestamp": 1747316614.768302,
+            "data": {
+                "block_type": "vote",
+                "topic_id": "topic-1",
+                "voter_id": "voter-1747316614",
+                "vote_choice": "Python"
+            },
+            "previous_hash": "008c6a698079a3d456a81976a8259480209e770612a8ae5d3fe7859ed4a027e2",
+            "nonce": 246,
+            "hash": "00055bb7b449706469155f5c42587f77c03a4f3ade64138505dfba2f33819a49"
+        }
+    ],
+    "difficulty": 2
+}
