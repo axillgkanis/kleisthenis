@@ -1,9 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
+#from main_screen.dialog_screens.announcement import AnnouncementsPopup
 import json, os
 
 # Colors
-
 BG_COLOR = "#f9fafb"
 SIDEBAR_COLOR = "#e0e7ff"
 CONTENT_BG = "#ffffff"
@@ -35,7 +35,6 @@ selected_pdf_path = tk.StringVar()
 current_edit_index = None
 
 # Propose Frame View
-
 def show_propose_view(frame_data=None, index=None):
     global current_edit_index
     clear_content()
@@ -116,7 +115,6 @@ def show_propose_view(frame_data=None, index=None):
               bg="#f87171", fg="white", font=("Helvetica", 11), padx=10).pack(side="left", padx=5)
 
 # View Frames View
-
 def show_view_frames():
     clear_content()
 
@@ -169,11 +167,20 @@ def show_view_frames():
 
 # Sidebar buttons
 tk.Label(sidebar, text="Menu", font=("Helvetica", 16, "bold"), bg=SIDEBAR_COLOR).pack(pady=20)
+
+#tk.Button(sidebar, text="Announcements", command=lambda: announcement(root),
+#          bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
+
 tk.Button(sidebar, text="Propose Frame", command=lambda: show_propose_view(),
           bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
+
 tk.Button(sidebar, text="View Frames", command=show_view_frames,
           bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
+
 tk.Button(sidebar, text="Exit", command=root.destroy,
           bg="#e5e7eb", fg="black", font=("Helvetica", 12), width=18).pack(pady=5)
 
+
+def show_announcements_popup():
+    announcement(root)
 root.mainloop()
