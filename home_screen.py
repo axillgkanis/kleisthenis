@@ -5,10 +5,10 @@ import tkinter as tk
 from datetime import datetime
 from tkcalendar import Calendar
 
-from dialog_screen.frames_view import FramesView
-from dialog_screen.announcements_view import AnnouncementsView
-from dialog_screen.set_meeting import SetMeetingPopup
-from dialog_screen.email_regex_popup import SetEmailRegexPopup
+from dialog_screens.frames_view import FramesView
+from dialog_screens.announcements_view import AnnouncementsView
+from dialog_screens.set_meeting import SetMeetingPopup
+from dialog_screens.set_email_regex_popup import SetEmailRegexPopup
 
 class KleisthenisDashboard(ctk.CTk):
     def __init__(self):
