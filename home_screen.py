@@ -1,198 +1,125 @@
+import customtkinter as ctk
+import json
+import os
 import tkinter as tk
-from tkinter import filedialog, messagebox
-from dialog_screens.punish_user import PunishUserPopup
-from dialog_screens.set_email_regex_popup import SetEmailRegexPopup
-import json, os
+from datetime import datetime
+from tkcalendar import Calendar
 
-# Colors
-BG_COLOR = "#f9fafb"
-SIDEBAR_COLOR = "#e0e7ff"
-CONTENT_BG = "#ffffff"
-TEXT_COLOR = "#0f172a"
-BUTTON_BG = "#93c5fd"
-BUTTON_FG = "#0f172a"
-BUTTON_HOVER = "#60a5fa"
-PINK_TAG = "#fce7f3"
-DATA_FILE = "proposed_frames.json"
+from dialog_screen.frames_view import FramesView
+from dialog_screen.announcements_view import AnnouncementsView
+from dialog_screen.set_meeting import SetMeetingPopup
+from dialog_screen.email_regex_popup import SetEmailRegexPopup
 
-root = tk.Tk()
-root.title("Kleisthenis Dashboard")
-root.geometry("1000x700")
-root.configure(bg=BG_COLOR)
+class KleisthenisDashboard(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.title("Kleisthenis Dashboard")
+        self.geometry("1000x700")
 
-# Sidebar
-sidebar = tk.Frame(root, bg=SIDEBAR_COLOR, width=200)
-sidebar.pack(side="left", fill="y")
+        # Header (top row with buttons)
+        self.header = ctk.CTkFrame(self, fg_color="#1e293b", height=50)
+        self.header.grid(row=0, column=0, columnspan=2, sticky="new")
+        self.header.grid_columnconfigure(0, weight=1)
+        self.header.grid_columnconfigure(1, weight=0)
 
-content = tk.Frame(root, bg=CONTENT_BG)
-content.pack(side="right", expand=True, fill="both")
+        ctk.CTkLabel(self.header, text="KLEISTHENIS ADMIN DASHBOARD", font=ctk.CTkFont(size=18, weight="bold")).grid(row=0, column=0, padx=20, sticky="w")
 
-# Sidebar buttons
-def clear_content():
-    for widget in content.winfo_children():
-        widget.destroy()
+        top_buttons = ctk.CTkFrame(self.header, fg_color="transparent")
+        top_buttons.grid(row=0, column=1, padx=10, sticky="e")
 
-selected_pdf_path = tk.StringVar()
-current_edit_index = None
+        ctk.CTkButton(top_buttons, text="Set Email Regex", command=self.open_email_regex, fg_color="#10b981").pack(side="left", padx=5)
+        ctk.CTkButton(top_buttons, text="Punish User", fg_color="#7c3aed").pack(side="left", padx=5)
+        ctk.CTkButton(top_buttons, text="Logout", fg_color="#ef4444", command=self.destroy).pack(side="left", padx=5)
 
-# Propose Frame View
-def show_propose_view(frame_data=None, index=None):
-    global current_edit_index
-    clear_content()
-    current_edit_index = index
+        # Sidebar
+        self.sidebar = ctk.CTkFrame(self, width=300, fg_color="#1e293b")
+        self.sidebar.grid(row=1, column=0, sticky="ns")
+        self.grid_columnconfigure(0, minsize=300)
+        self.sidebar.grid_rowconfigure(7, weight=1)
 
-    tk.Label(content, text="Propose New Frame" if frame_data is None else "Edit Frame",
-             font=("Helvetica", 20, "bold"), bg=CONTENT_BG, fg=TEXT_COLOR).pack(pady=20)
+        ctk.CTkLabel(self.sidebar, text="Menu", font=ctk.CTkFont(size=20, weight="bold")).grid(row=0, column=0, pady=20)
 
-    form = tk.Frame(content, bg=PINK_TAG, padx=20, pady=20)
-    form.pack(pady=10)
+        ctk.CTkButton(self.sidebar, text="Frames", command=self.show_frames).grid(row=1, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Announcements", command=self.show_announcements).grid(row=2, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Set Meeting", command=self.open_set_meeting).grid(row=3, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Exit", command=self.destroy).grid(row=4, column=0, pady=5)
 
-    tk.Label(form, text="Frame Title:", bg=PINK_TAG, font=("Helvetica", 12)).pack(anchor="w")
-    title_entry = tk.Entry(form, width=50, font=("Helvetica", 11))
-    title_entry.pack(pady=5)
+        # Calendar under Exit
+        calendar_container = ctk.CTkFrame(self.sidebar, fg_color="transparent")
+        calendar_container.grid(row=5, column=0, padx=10, pady=(20, 10))
 
-    tk.Label(form, text="Description:", bg=PINK_TAG, font=("Helvetica", 12)).pack(anchor="w")
-    desc_text = tk.Text(form, height=6, width=50, font=("Helvetica", 10))
-    desc_text.pack(pady=5)
+        calendar_native = tk.Frame(calendar_container)
+        calendar_native.pack()
 
-    selected_file_label = tk.Label(form, text="No file selected", bg=PINK_TAG,
-                                   font=("Helvetica", 10), fg="#6b7280")
-    selected_file_label.pack(pady=5)
+        self.calendar_widget = Calendar(calendar_native, selectmode="day", date_pattern="yyyy-mm-dd")
+        self.calendar_widget.pack()
+        self.calendar_widget.bind("<<CalendarSelected>>", self.on_date_hover)
 
-    if frame_data:
-        title_entry.insert(0, frame_data.get("title", ""))
-        desc_text.insert("1.0", frame_data.get("description", ""))
-        if frame_data.get("pdf_file"):
-            selected_pdf_path.set(frame_data["pdf_file"])
-            selected_file_label.config(text=f"📎 {os.path.basename(frame_data['pdf_file'])}")
+        self.mark_calendar_events(self.calendar_widget)
 
-    def select_pdf():
-        file_path = filedialog.askopenfilename(filetypes=[("PDF files", "*.pdf")])
-        if file_path:
-            selected_pdf_path.set(file_path)
-            selected_file_label.config(text=f"📎 {os.path.basename(file_path)}")
+        # Content Area
+        self.content = ctk.CTkFrame(self)
+        self.content.grid(row=1, column=1, sticky="nsew")
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(1, weight=1)
 
-    def submit_frame():
-        title = title_entry.get().strip()
-        desc = desc_text.get("1.0", tk.END).strip()
-        pdf = selected_pdf_path.get()
+        self.current_view = None
+        self.show_frames()
 
-        if not title:
-            messagebox.showwarning("Missing Title", "Please enter a title for the frame.")
-            return
+    def clear_content(self):
+        if self.current_view:
+            self.current_view.destroy()
 
-        new_frame = {"title": title, "description": desc, "pdf_file": pdf or None}
+    def show_frames(self):
+        self.clear_content()
+        self.current_view = FramesView(self.content)
+        self.current_view.pack(fill="both", expand=True)
 
-        if os.path.exists(DATA_FILE):
-            with open(DATA_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
+    def show_announcements(self):
+        self.clear_content()
+        self.current_view = AnnouncementsView(self.content)
+        self.current_view.pack(fill="both", expand=True)
+
+    def open_set_meeting(self):
+        popup = SetMeetingPopup(self, on_close=self.refresh_calendar)
+        popup.grab_set()
+
+    def open_email_regex(self):
+      SetEmailRegexPopup(self)
+    def load_meeting_data(self):
+        if os.path.exists("meeting_data.json"):
+            with open("meeting_data.json", "r", encoding="utf-8") as f:
+                try:
+                    data = json.load(f)
+                    return data if isinstance(data, list) else [data]
+                except json.JSONDecodeError:
+                    return []
+        return []
+
+    def mark_calendar_events(self, cal):
+        for entry in self.load_meeting_data():
+            try:
+                date_obj = datetime.strptime(entry["date"], "%Y-%m-%d")
+                cal.calevent_create(date_obj, "Meeting", "meeting")
+            except ValueError:
+                pass
+        cal.tag_config("meeting", background="blue", foreground="white")
+
+    def refresh_calendar(self):
+        self.calendar_widget.calevent_remove("all")
+        self.mark_calendar_events(self.calendar_widget)
+
+    def on_date_hover(self, event):
+        selected_date = self.calendar_widget.get_date()
+        meeting_info = next((entry for entry in self.load_meeting_data() if entry["date"] == selected_date), None)
+
+        if meeting_info:
+            message = f"Meeting on {selected_date}\nStart: {meeting_info.get('start_time')}\nEnd: {meeting_info.get('end_time')}\nStatus: {meeting_info.get('status')}"
         else:
-            data = []
+            message = f"No meeting scheduled on {selected_date}."
 
-        if current_edit_index is not None:
-            data[current_edit_index] = new_frame
-        else:
-            data.append(new_frame)
+        tk.messagebox.showinfo("Meeting Info", message)
 
-        with open(DATA_FILE, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=4)
-
-        title_entry.delete(0, tk.END)
-        desc_text.delete("1.0", tk.END)
-        selected_file_label.config(text="No file selected")
-        selected_pdf_path.set("")
-
-        messagebox.showinfo("Success", "Frame saved successfully!")
-        show_view_frames()
-
-    tk.Button(form, text="📎 Select PDF", command=select_pdf,
-              bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 11, "bold")).pack(pady=5)
-
-    btns = tk.Frame(form, bg=PINK_TAG)
-    btns.pack(pady=10)
-    tk.Button(btns, text="Update" if frame_data else "Submit", command=submit_frame,
-              bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 11, "bold"), padx=10).pack(side="left", padx=5)
-    tk.Button(btns, text="Cancel", command=clear_content,
-              bg="#f87171", fg="white", font=("Helvetica", 11), padx=10).pack(side="left", padx=5)
-
-# View Frames View
-def show_view_frames():
-    clear_content()
-
-    tk.Label(content, text="Submitted Frames", font=("Helvetica", 20, "bold"),
-             bg=CONTENT_BG, fg=TEXT_COLOR).pack(pady=20)
-
-    if not os.path.exists(DATA_FILE):
-        tk.Label(content, text="No frames submitted yet.", font=("Helvetica", 12),
-                 bg=CONTENT_BG, fg="#6b7280").pack(pady=10)
-        return
-
-    with open(DATA_FILE, "r", encoding="utf-8") as f:
-        data = json.load(f)
-
-    if not data:
-        tk.Label(content, text="No frames submitted yet.", font=("Helvetica", 12),
-                 bg=CONTENT_BG, fg="#6b7280").pack(pady=10)
-        return
-
-    for i, frame in enumerate(data):
-        card = tk.Frame(content, bg="#f1f5f9", bd=1, relief="solid", padx=15, pady=10)
-        card.pack(fill="x", padx=30, pady=10)
-
-        tk.Label(card, text=frame.get("title", "No Title"), font=("Helvetica", 14, "bold"),
-                 bg="#f1f5f9", fg=TEXT_COLOR).pack(anchor="w")
-        tk.Label(card, text=frame.get("description", "No Description"), wraplength=800,
-                 justify="left", bg="#f1f5f9", fg=TEXT_COLOR).pack(anchor="w", pady=(5, 0))
-
-        if frame.get("pdf_file"):
-            tk.Label(card, text=f" Attached File: {os.path.basename(frame['pdf_file'])}",
-                     font=("Helvetica", 10), bg="#f1f5f9", fg="#475569").pack(anchor="w", pady=(5, 0))
-
-        actions = tk.Frame(card, bg="#f1f5f9")
-        actions.pack(anchor="e", pady=(10, 0))
-
-        def make_delete_callback(index=i):
-            def delete():
-                confirm = messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this frame?")
-                if confirm:
-                    del data[index]
-                    with open(DATA_FILE, "w", encoding="utf-8") as f:
-                        json.dump(data, f, indent=4)
-                    show_view_frames()
-            return delete
-
-        tk.Button(actions, text="Delete", command=make_delete_callback(i),
-                  bg="#f87171", fg="black", font=("Helvetica", 10)).pack(side="right", padx=5)
-        tk.Button(actions, text="Edit", command=lambda idx=i: show_propose_view(data[idx], idx),
-                  bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 10)).pack(side="right", padx=5)
-
-# Punish User View
-def open_punish_popup():
-    PunishUserPopup(root)
-
-# Set Email Regex View
-def open_email_regex_popup():
-    SetEmailRegexPopup(root)
-
-# Sidebar buttons
-tk.Label(sidebar, text="Menu", font=("Helvetica", 16, "bold"), bg=SIDEBAR_COLOR).pack(pady=20)
-
-#tk.Button(sidebar, text="Announcements", command=lambda: announcement(root),
-#          bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
-
-tk.Button(sidebar, text="Propose Frame", command=lambda: show_propose_view(),
-          bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
-
-tk.Button(sidebar, text="View Frames", command=show_view_frames,
-          bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
-tk.Button(sidebar, text="Punish User", command=open_punish_popup,
-          bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
-
-tk.Button(sidebar, text="Set Email Regex", command=open_email_regex_popup,
-          bg=BUTTON_BG, fg=BUTTON_FG, font=("Helvetica", 12), width=18).pack(pady=5)
-
-tk.Button(sidebar, text="Exit", command=root.destroy,
-          bg="#e5e7eb", fg="black", font=("Helvetica", 12), width=18).pack(pady=5)
-
-
-root.mainloop()
+if __name__ == "__main__":
+    app = KleisthenisDashboard()
+    app.mainloop()
