@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import json
 import os
-from dialog_screens.announcement_popup import ANNOUNCEMENT_CREATION_SCREEN
+from dialog_screens.announcement_popup import ANNOUNCEMENT_CREATION_SCREEN, EDIT_ANNOUNCEMENT_SCREEN
 from announcementHandler import annoucementHandler
 
 class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
@@ -36,7 +36,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.body_label.pack(padx=10, pady=5, fill="both", expand=True)
         self.body_label.configure(state="disabled")
 
-        self.edit_button = ctk.CTkButton(self.detail_panel, text="Edit", command=self.open_edit_popup)
+        self.edit_button = ctk.CTkButton(self.detail_panel, text="Edit", command=self.open_edit_announcement_popup)
         self.edit_button.pack(pady=5)
         self.edit_button.configure(state="disabled")
 
@@ -50,7 +50,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
 
         for index, ann in enumerate(self.announcements):
             btn = ctk.CTkButton(self.list_panel, text=ann['title'], anchor="w",
-                                 command=lambda i=index: self.show_announcement(i))
+                                 command=lambda i=index: self.displayAnnouncementScreen(i))
             btn.pack(fill="x", padx=10, pady=2)
             self.list_buttons.append(btn)
 
@@ -77,10 +77,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
     def open_create_announcement_popup(self):
         ANNOUNCEMENT_CREATION_SCREEN.displayAnnouncementScreen(self)
 
-    def open_edit_popup(self):
+    #helper for edit announcement pop up
+    def open_edit_announcement_popup(self):
         if self.selected_index is not None:
-            popup = ANNOUNCEMENT_CREATION_SCREEN(self, mode="edit", index=self.selected_index,
-                                       data=self.announcements[self.selected_index])
-            self.wait_window(popup)
-            self.refresh_list()
-            self.show_announcement(self.selected_index)
+            EDIT_ANNOUNCEMENT_SCREEN.displayEditAnnouncement(self, self.selected_index, self.announcements[self.selected_index])
