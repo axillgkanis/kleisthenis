@@ -23,7 +23,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.list_buttons = []
         self.refresh_list()
 
-        ctk.CTkButton(self.list_panel, text="+ Create Announcement", command=self.open_create_popup).pack(pady=10)
+        ctk.CTkButton(self.list_panel, text="+ Create Announcement", command=self.open_create_announcement_popup).pack(pady=10)
 
         # Detail Panel (Right)
         self.detail_panel = ctk.CTkFrame(container)
@@ -40,39 +40,28 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.edit_button.pack(pady=5)
         self.edit_button.configure(state="disabled")
 
+    #helper function to load data
     def refresh_list(self):
         for btn in self.list_buttons:
             btn.destroy()
         self.list_buttons = []
 
-        self.load_data()
+        self.displayAnnouncements()
 
         for index, ann in enumerate(self.announcements):
-            row = ctk.CTkFrame(self.list_panel)
-            row.pack(fill="x", padx=10, pady=2)
+            btn = ctk.CTkButton(self.list_panel, text=ann['title'], anchor="w",
+                                 command=lambda i=index: self.displayAnnouncementScreen(i))
+            btn.pack(fill="x", padx=10, pady=2)
+            self.list_buttons.append(btn)
 
-            btn = ctk.CTkButton(row, text=ann['title'], anchor="w",
-                                command=lambda i=index: self.displayAnnouncementScreen(i))
-            btn.pack(side="left", fill="x", expand=True)
-
-            delete_btn = ctk.CTkButton(row, text="-", width=30,
-                                       command=lambda i=index: self.delete_announcement(i))
-            delete_btn.pack(side="right", padx=5)
-
-            self.list_buttons.append(row)
-
-    def load_data(self):
-        if os.path.exists(DATA_FILE):
-            with open(DATA_FILE, "r", encoding="utf-8") as f:
-                self.announcements = json.load(f)
-        else:
+    def displayAnnouncements(self):
+        handler = annoucementHandler(None)
+        self.announcements = handler.searchAnnouncement()
+        if self.announcements is None:
             self.announcements = []
 
-    def save_data(self):
-        with open(DATA_FILE, "w", encoding="utf-8") as f:
-            json.dump(self.announcements, f, indent=4, ensure_ascii=False)
-
-    def show_announcement(self, index):
+    #exluded from the uses cases because of simplicity
+    def displayAnnouncementScreen(self, index):
         self.selected_index = index
         announcement = self.announcements[index]
         self.title_label.configure(text=announcement['title'])
@@ -92,25 +81,3 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
     def open_edit_announcement_popup(self):
         if self.selected_index is not None:
             EDIT_ANNOUNCEMENT_SCREEN.displayEditAnnouncement(self, self.selected_index, self.announcements[self.selected_index])
-            popup = AnnouncementPopup(self, mode="edit", index=self.selected_index,
-                                      data=self.announcements[self.selected_index])
-            self.wait_window(popup)
-            self.refresh_list()
-            self.show_announcement(self.selected_index)
-
-    def delete_announcement(self, index):
-        if 0 <= index < len(self.announcements):
-            deleted_title = self.announcements[index]['title']
-            del self.announcements[index]
-            self.save_data()
-            self.refresh_list()
-            self.title_label.configure(text="")
-            self.body_label.configure(state="normal")
-            self.body_label.delete("1.0", "end")
-            self.body_label.configure(state="disabled")
-            self.edit_button.configure(state="disabled")
-
-            messagebox.showinfo(
-                "Deleted",
-                f"Announcement '{deleted_title}' was successfully deleted."
-            )
