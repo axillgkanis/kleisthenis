@@ -97,17 +97,26 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
 
     def delete_announcement(self, index):
         if 0 <= index < len(self.announcements):
-            deleted_title = self.announcements[index]['title']
-            del self.announcements[index]
-            self.save_data()
-            self.refresh_list()
-            self.title_label.configure(text="")
-            self.body_label.configure(state="normal")
-            self.body_label.delete("1.0", "end")
-            self.body_label.configure(state="disabled")
-            self.edit_button.configure(state="disabled")
+            announcement_data = self.announcements[index]
+            handler = annoucementHandler(announcement_data)
+            
+            if handler.deleteAnnouncement():
+                deleted_title = announcement_data['title']
+                self.refresh_list()
+                
+                # Clear the detail panel
+                self.title_label.configure(text="")
+                self.body_label.configure(state="normal")
+                self.body_label.delete("1.0", "end")
+                self.body_label.configure(state="disabled")
+                self.edit_button.configure(state="disabled")
 
-            messagebox.showinfo(
-                "Deleted",
-                f"Announcement '{deleted_title}' was successfully deleted."
+                messagebox.showinfo(
+                    "Deleted",
+                    f"Announcement '{deleted_title}' was successfully deleted."
+                )
+        else:
+            messagebox.showerror(
+                "Error",
+                "Failed to delete announcement."
             )
