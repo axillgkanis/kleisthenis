@@ -6,7 +6,7 @@ from datetime import datetime
 from tkcalendar import Calendar
 
 from dialog_screens.frames_view import FramesView
-from dialog_screens.announcements_view import AnnouncementsView
+from dialog_screens.announcements_view import ANNOUNCEMENT_SCREEN
 from dialog_screens.set_meeting import SetMeetingPopup
 from dialog_screens.set_email_regex_popup import SetEmailRegexPopup
 
@@ -77,7 +77,7 @@ class KleisthenisDashboard(ctk.CTk):
 
     def show_announcements(self):
         self.clear_content()
-        self.current_view = AnnouncementsView(self.content)
+        self.current_view = ANNOUNCEMENT_SCREEN(self.content)
         self.current_view.pack(fill="both", expand=True)
 
     def open_set_meeting(self):
