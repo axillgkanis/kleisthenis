@@ -49,7 +49,7 @@ class MeetingScheduler:
                     if end_time <= now < end_time + timedelta(seconds=1):
                         self.handle_signal("end", meeting)
 
-                time.sleep(1)  # Check every second
+                time.sleep(60)  # Check every second
 
         threading.Thread(target=scheduler_loop, daemon=True).start()
 
