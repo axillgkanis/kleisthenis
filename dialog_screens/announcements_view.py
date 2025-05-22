@@ -1,11 +1,10 @@
 import customtkinter as ctk
 import json
 import os
-from dialog_screen.announcement_popup import AnnouncementPopup
+from dialog_screens.announcement_popup import ANNOUNCEMENT_CREATION_SCREEN
+from announcementHandler import annoucementHandler
 
-DATA_FILE = "announcements.json"
-
-class AnnouncementsView(ctk.CTkFrame):
+class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
 
@@ -24,7 +23,7 @@ class AnnouncementsView(ctk.CTkFrame):
         self.list_buttons = []
         self.refresh_list()
 
-        ctk.CTkButton(self.list_panel, text="+ Create Announcement", command=self.open_create_popup).pack(pady=10)
+        ctk.CTkButton(self.list_panel, text="+ Create Announcement", command=self.open_create_announcement_popup).pack(pady=10)
 
         # Detail Panel (Right)
         self.detail_panel = ctk.CTkFrame(container)
@@ -41,12 +40,13 @@ class AnnouncementsView(ctk.CTkFrame):
         self.edit_button.pack(pady=5)
         self.edit_button.configure(state="disabled")
 
+    #helper function to load data
     def refresh_list(self):
         for btn in self.list_buttons:
             btn.destroy()
         self.list_buttons = []
 
-        self.load_data()
+        self.displayAnnouncements()
 
         for index, ann in enumerate(self.announcements):
             btn = ctk.CTkButton(self.list_panel, text=ann['title'], anchor="w",
@@ -54,14 +54,14 @@ class AnnouncementsView(ctk.CTkFrame):
             btn.pack(fill="x", padx=10, pady=2)
             self.list_buttons.append(btn)
 
-    def load_data(self):
-        if os.path.exists(DATA_FILE):
-            with open(DATA_FILE, "r", encoding="utf-8") as f:
-                self.announcements = json.load(f)
-        else:
+    def displayAnnouncements(self):
+        handler = annoucementHandler(None)
+        self.announcements = handler.searchAnnouncement()
+        if self.announcements is None:
             self.announcements = []
 
-    def show_announcement(self, index):
+    #exluded from the uses cases because of simplicity
+    def displayAnnouncementScreen(self, index):
         self.selected_index = index
         announcement = self.announcements[index]
         self.title_label.configure(text=announcement['title'])
@@ -73,14 +73,13 @@ class AnnouncementsView(ctk.CTkFrame):
 
         self.edit_button.configure(state="normal")
 
-    def open_create_popup(self):
-        popup = AnnouncementPopup(self, mode="create")
-        self.wait_window(popup)
-        self.refresh_list()
+    #helper for create announcement pop up
+    def open_create_announcement_popup(self):
+        ANNOUNCEMENT_CREATION_SCREEN.displayAnnouncementScreen(self)
 
     def open_edit_popup(self):
         if self.selected_index is not None:
-            popup = AnnouncementPopup(self, mode="edit", index=self.selected_index,
+            popup = ANNOUNCEMENT_CREATION_SCREEN(self, mode="edit", index=self.selected_index,
                                        data=self.announcements[self.selected_index])
             self.wait_window(popup)
             self.refresh_list()

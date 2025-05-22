@@ -1,10 +1,7 @@
 import customtkinter as ctk
-import json
-import os
+from announcementHandler import annoucementHandler
 
-DATA_FILE = "announcements.json"
-
-class AnnouncementPopup(ctk.CTkToplevel):
+class ANNOUNCEMENT_CREATION_SCREEN(ctk.CTkToplevel):
     def __init__(self, parent, mode="create", index=None, data=None):
         super().__init__(parent)
         self.title("Announcement")
@@ -29,30 +26,43 @@ class AnnouncementPopup(ctk.CTkToplevel):
             self.title_entry.insert(0, self.data.get("title", ""))
             self.body_text.insert("0.0", self.data.get("body", ""))
 
-        ctk.CTkButton(self, text="Submit", command=self.save_announcement).pack(pady=10)
+        self.submit_button = ctk.CTkButton(self, text="Submit", 
+                                         command=self.submit_announcement,
+                                         state="disabled")
+        
+        self.submit_button.pack(pady=10)
+        
+        # Add bindings for text changes
+        self.title_entry.bind('<KeyRelease>', self.enableSubmit)
+        self.body_text.bind('<KeyRelease>', self.enableSubmit)
 
-    def save_announcement(self):
+    def displayAnnouncementScreen(parent):
+        popup = ANNOUNCEMENT_CREATION_SCREEN(parent, mode="create")
+        parent.wait_window(popup)
+        parent.refresh_list()
+
+    #Validates inputs and enables/disables submit button
+    def enableSubmit(self, event=None):
         title = self.title_entry.get().strip()
         body = self.body_text.get("0.0", "end").strip()
-
-        if not title:
-            ctk.CTkLabel(self, text="Title is required", text_color="red").pack()
-            return
-
-        if os.path.exists(DATA_FILE):
-            with open(DATA_FILE, "r", encoding="utf-8") as f:
-                data = json.load(f)
+        
+        if title and body:
+            self.submit_button.configure(state="normal")
         else:
-            data = []
+            self.submit_button.configure(state="disabled")
 
-        new_entry = {"title": title, "body": body}
-
-        if self.mode == "edit" and self.index is not None:
-            data[self.index] = new_entry
+    #helper function that handles the actual submission of the announcement
+    def submit_announcement(self):
+        title = self.title_entry.get().strip()
+        body = self.body_text.get("0.0", "end").strip()
+        
+        announcement_data = {
+            "title": title,
+            "body": body
+        }
+        
+        handler = annoucementHandler(announcement_data)
+        if handler.newAnnouncement():
+            self.destroy()
         else:
-            data.append(new_entry)
-
-        with open(DATA_FILE, "w", encoding="utf-8") as f:
-            json.dump(data, f, indent=4)
-
-        self.destroy()
+            ctk.CTkLabel(self, text="Failed to save announcement", text_color="red").pack()
