@@ -2,18 +2,18 @@
     "chain": [
         {
             "index": 0,
-            "timestamp": 1747316614.7601306,
+            "timestamp": 1748032293.8398101,
             "data": {
                 "block_type": "genesis",
                 "message": "Genesis Block"
             },
             "previous_hash": "0",
-            "nonce": 175,
-            "hash": "006eb3b30a3417f1728355ebf4712a718a876ef8964e51e3d9b272db064d3c22"
+            "nonce": 79,
+            "hash": "00c67e20e53e584ff1509b2d09d6c40f81afe922eeadc92ff5fb368aa480f3fa"
         },
         {
             "index": 1,
-            "timestamp": 1747316614.764519,
+            "timestamp": 1748032293.8420568,
             "data": {
                 "block_type": "topic",
                 "topic_id": "topic-1",
@@ -27,22 +27,52 @@
                     "Go"
                 ]
             },
-            "previous_hash": "006eb3b30a3417f1728355ebf4712a718a876ef8964e51e3d9b272db064d3c22",
-            "nonce": 115,
-            "hash": "008c6a698079a3d456a81976a8259480209e770612a8ae5d3fe7859ed4a027e2"
+            "previous_hash": "00c67e20e53e584ff1509b2d09d6c40f81afe922eeadc92ff5fb368aa480f3fa",
+            "nonce": 162,
+            "hash": "007be7fcdfcd75473a008554ab4942e88eff829958b7e150b574b751152756b9"
         },
         {
             "index": 2,
-            "timestamp": 1747316614.768302,
+            "timestamp": 1748032293.8494549,
+            "data": {
+                "block_type": "topic",
+                "topic_id": "topic-1",
+                "title": "Best Framework",
+                "description": "Vote for the best framework",
+                "options": [
+                    "yes",
+                    "no"
+                ]
+            },
+            "previous_hash": "007be7fcdfcd75473a008554ab4942e88eff829958b7e150b574b751152756b9",
+            "nonce": 190,
+            "hash": "00e5d4d9d97def8dc3839c0dd1542e3f08f0a2f7f511addca941899b43a1b80e"
+        },
+        {
+            "index": 3,
+            "timestamp": 1748032293.8571095,
             "data": {
                 "block_type": "vote",
                 "topic_id": "topic-1",
-                "voter_id": "voter-1747316614",
-                "vote_choice": "Python"
+                "voter_id": "voter-1",
+                "vote_choice": "yes"
             },
-            "previous_hash": "008c6a698079a3d456a81976a8259480209e770612a8ae5d3fe7859ed4a027e2",
-            "nonce": 246,
-            "hash": "00055bb7b449706469155f5c42587f77c03a4f3ade64138505dfba2f33819a49"
+            "previous_hash": "00e5d4d9d97def8dc3839c0dd1542e3f08f0a2f7f511addca941899b43a1b80e",
+            "nonce": 26,
+            "hash": "00bddb65e0a6cd1fda80103e1437275afbab632d55a1d13da95eb94342193080"
+        },
+        {
+            "index": 4,
+            "timestamp": 1748032293.8583605,
+            "data": {
+                "block_type": "vote",
+                "topic_id": "topic-1",
+                "voter_id": "voter-2",
+                "vote_choice": "no"
+            },
+            "previous_hash": "00bddb65e0a6cd1fda80103e1437275afbab632d55a1d13da95eb94342193080",
+            "nonce": 551,
+            "hash": "00390ab41e2881f52d892b52ff459a411fe030fbd8ce1d6e063caf4a73445bec"
         }
     ],
     "difficulty": 2

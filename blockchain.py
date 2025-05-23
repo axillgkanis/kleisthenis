@@ -80,8 +80,14 @@ class Blockchain:
         self.chain.append(new_block)
         return new_block
 
-    def add_vote_block(self, topic_id: str, voter_id: str, vote_choice: str) -> Optional[VoteBlock]:
-        """Add a new vote block to the blockchain."""
+    def createAndUploadVote(self, topic_id: str, voter_id: str, vote_choice: str, filename: str = "blockchain.json") -> Optional[VoteBlock]:
+
+        # Ensure the vote choice is either 'yes' or 'no'
+        if vote_choice.lower() not in ["yes", "no"]:
+            print(
+                f"Invalid vote choice: {vote_choice}. Only 'yes' or 'no' are allowed.")
+            return None
+
         # Verify topic exists
         topic_exists = any(
             block.data.get("block_type") == "topic" and block.data.get(
@@ -93,13 +99,43 @@ class Blockchain:
             print(f"Topic {topic_id} does not exist.")
             return None
 
+        # Add the vote block
         latest_block = self.get_latest_block()
         new_block = VoteBlock(
-            len(self.chain), topic_id, voter_id, vote_choice, latest_block.hash
+            len(self.chain), topic_id, voter_id, vote_choice.lower(), latest_block.hash
         )
         new_block.mine_block(self.difficulty)
         self.chain.append(new_block)
+
+        # Save the blockchain to a file
+        self.save_to_file(filename)
+        print(f"Vote block added and blockchain saved to {filename}")
+
         return new_block
+
+    def get_votes_for_topic(self, topic_id: str) -> Dict[str, int]:
+        """Get vote counts for a specific topic."""
+        votes = {"yes": 0, "no": 0}  # Initialize vote counts for 'yes' and 'no'
+
+        # Verify topic exists
+        topic_exists = any(
+            block.data.get("block_type") == "topic" and block.data.get(
+                "topic_id") == topic_id
+            for block in self.chain
+        )
+
+        if not topic_exists:
+            print(f"Topic {topic_id} does not exist.")
+            return votes
+
+        # Count votes
+        for block in self.chain:
+            if block.data.get("block_type") == "vote" and block.data.get("topic_id") == topic_id:
+                vote_choice = block.data.get("vote_choice")
+                if vote_choice in votes:  # Only count 'yes' or 'no' votes
+                    votes[vote_choice] += 1
+
+        return votes
 
     def is_chain_valid(self) -> bool:
         """Check if the blockchain is valid."""
@@ -227,8 +263,16 @@ if __name__ == "__main__":
         )
 
     # Add some votes
+    voting_chain.add_topic_block(
+        "topic-1", "Best Framework", "Vote for the best framework", ["yes", "no"])
+
+    # Add valid votes
+    voting_chain.add_vote_block("topic-1", "voter-1", "yes")
+    voting_chain.add_vote_block("topic-1", "voter-2", "no")
+
+    # Add an invalid vote
     voting_chain.add_vote_block(
-        "topic-1", f"voter-{int(time.time())}", "Python")
+        "topic-1", "voter-3", "maybe")  # Invalid vote choice
 
     # Check results
     print("Vote results:", voting_chain.get_votes_for_topic("topic-1"))
