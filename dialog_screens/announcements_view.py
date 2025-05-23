@@ -1,9 +1,9 @@
 import customtkinter as ctk
 import json
 import os
-import tkinter.messagebox as messagebox
 from dialog_screens.announcement_popup import ANNOUNCEMENT_CREATION_SCREEN, EDIT_ANNOUNCEMENT_SCREEN
 from announcementHandler import annoucementHandler
+from dialog_screens.DIALOGUE_SCREEN import DIALOGUE_SCREEN
 
 class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
     def __init__(self, parent):
@@ -111,12 +111,10 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
                 self.body_label.configure(state="disabled")
                 self.edit_button.configure(state="disabled")
 
-                messagebox.showinfo(
-                    "Deleted",
+                DIALOGUE_SCREEN().displaySuccess(
                     f"Announcement '{deleted_title}' was successfully deleted."
                 )
         else:
-            messagebox.showerror(
-                "Error",
-                "Failed to delete announcement."
-            )
+            DIALOGUE_SCREEN().displayFail(
+                "Failed to delete the announcement. Please try again."
+            )           

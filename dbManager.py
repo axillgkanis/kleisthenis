@@ -21,6 +21,7 @@ def setup_database():
         password=DB_CONFIG['password']
     )
     cursor = conn.cursor()
+    
 class dbManager:
     def __init__(self):
         self.conn = mysql.connector.connect(**DB_CONFIG)
@@ -85,3 +86,69 @@ class dbManager:
         except mysql.connector.Error as e:
             print(f"Error deleting announcement: {e}")
             return False
+
+    def queryProposedFrameworks():
+        """
+        Retrieve all proposed frameworks from the database
+        Returns: List of dictionaries containing framework information
+        """
+        try:
+            conn = mysql.connector.connect(**DB_CONFIG)
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute(
+                'SELECT * FROM frameworks WHERE approved = 0 ORDER BY id DESC'
+            )
+            frameworks = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return frameworks
+        except mysql.connector.Error as e:
+            print(f"Error retrieving frameworks: {e}")
+            return []
+
+    def queryProposedFrameworkDetails(framework_id):
+        """
+        Retrieve details for a specific framework
+        Args:
+            framework_id: ID of the framework to retrieve
+        Returns: Dictionary containing framework details or None if not found
+        """
+        try:
+            conn = mysql.connector.connect(**DB_CONFIG)
+            cursor = conn.cursor(dictionary=True)
+            cursor.execute(
+                'SELECT * FROM frameworks WHERE id = %s',
+                (framework_id,)
+            )
+            framework = cursor.fetchone()
+            cursor.close()
+            conn.close()
+            return framework
+        except mysql.connector.Error as e:
+            print(f"Error retrieving framework details: {e}")
+            return None
+
+    def updateProposedFrameworkStatus(framework_id, voted=False):
+        """
+        Update the vote status of a framework
+        Args:
+            framework_id: ID of the framework to update
+            voted: Whether the framework has been voted on
+        Returns: True if successful, False otherwise
+        """
+        try:
+            conn = mysql.connector.connect(**DB_CONFIG)
+            cursor = conn.cursor()
+            cursor.execute(
+                'UPDATE frameworks SET vote = %s WHERE id = %s',
+                (1 if voted else 0, framework_id)
+            )
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return True
+        except mysql.connector.Error as e:
+            print(f"Error updating framework status: {e}")
+            return False
+
+    
