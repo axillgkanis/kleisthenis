@@ -42,8 +42,8 @@ class SetMeetingPopup(ctk.CTkToplevel):
         action_frame = ctk.CTkFrame(self, fg_color="white")
         action_frame.pack(pady=5)
 
-        ctk.CTkButton(action_frame, text="Start Meeting", command=self.start_meeting, fg_color="#10b981").pack(side="left", padx=10)
-        ctk.CTkButton(action_frame, text="End Meeting", command=self.end_meeting, fg_color="#facc15").pack(side="left", padx=10)
+       #ctk.CTkButton(action_frame, text="Start Meeting", command=self.start_meeting, fg_color="#10b981").pack(side="left", padx=10)
+       #ctk.CTkButton(action_frame, text="End Meeting", command=self.end_meeting, fg_color="#facc15").pack(side="left", padx=10)
 
         self.update_status_label()
 
