@@ -10,6 +10,7 @@ from dialog_screens.frames_view import FramesView
 from dialog_screens.announcements_view import ANNOUNCEMENT_SCREEN
 from dialog_screens.set_meeting import SetMeetingPopup
 from dialog_screens.set_email_regex_popup import SetEmailRegexPopup
+from dialog_screens.punish_user import PunishUserPopup
 
 class KleisthenisDashboard(ctk.CTk):
     def __init__(self):
@@ -33,7 +34,7 @@ class KleisthenisDashboard(ctk.CTk):
         top_buttons.grid(row=0, column=1, padx=10, sticky="e")
 
         ctk.CTkButton(top_buttons, text="Set Email Regex", command=self.open_email_regex, fg_color="#10b981").pack(side="left", padx=5)
-        ctk.CTkButton(top_buttons, text="Punish User", fg_color="#7c3aed").pack(side="left", padx=5)
+        ctk.CTkButton(top_buttons, text="Punish User",command=self.open_punish_user, fg_color="#7c3aed").pack(side="left", padx=5)
         ctk.CTkButton(top_buttons, text="Logout", fg_color="#ef4444", command=self.destroy).pack(side="left", padx=5)
 
         # Sidebar
@@ -42,11 +43,17 @@ class KleisthenisDashboard(ctk.CTk):
         self.grid_columnconfigure(0, minsize=300)
         self.sidebar.grid_rowconfigure(7, weight=1)
 
-        ctk.CTkLabel(self.sidebar, text="Menu", font=ctk.CTkFont(size=20, weight="bold"),text_color="white").grid(row=0, column=0, pady=20)
+        user_hash_container = ctk.CTkFrame(self.sidebar, fg_color="transparent")
+        user_hash_container.grid(row=0, column=0, pady=(10, 0))
 
-        ctk.CTkButton(self.sidebar, text="Frames", command=self.show_frames).grid(row=1, column=0, pady=5)
-        ctk.CTkButton(self.sidebar, text="Announcements", command=self.show_announcements).grid(row=2, column=0, pady=5)
-        ctk.CTkButton(self.sidebar, text="Set Meeting", command=self.open_set_meeting).grid(row=3, column=0, pady=5)
+        ctk.CTkLabel(user_hash_container, text="USER HASH:", font=ctk.CTkFont(size=14, weight="bold")).pack(side="left")
+        ctk.CTkLabel(user_hash_container, text="test test test", text_color="#22d3ee", font=ctk.CTkFont(size=14)).pack(side="left", padx=5)
+
+        ctk.CTkLabel(self.sidebar, text="Menu", font=ctk.CTkFont(size=20, weight="bold"),text_color="white").grid(row=1, column=0, pady=20)
+
+        ctk.CTkButton(self.sidebar, text="Frames", command=self.show_frames).grid(row=2, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Announcements", command=self.show_announcements).grid(row=3, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Set Meeting", command=self.open_set_meeting).grid(row=4, column=0, pady=5)
 
         # Calendar under Exit
         calendar_container = ctk.CTkFrame(self.sidebar, fg_color="transparent")
@@ -97,6 +104,8 @@ class KleisthenisDashboard(ctk.CTk):
 
     def open_email_regex(self):
       SetEmailRegexPopup(self)
+    def open_punish_user(self):
+      PunishUserPopup(self)
     def load_meeting_data(self):
         if os.path.exists("meeting_data.json"):
             with open("meeting_data.json", "r", encoding="utf-8") as f:

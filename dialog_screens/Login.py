@@ -19,8 +19,6 @@ class LoginScreen(tk.Frame):
 
     def create_widgets(self):
         # Logo & Τίτλος
-        tk.Label(self, text="LOGO", font=("Helvetica", 16, "bold"),
-                 fg="white", bg="#1e1e1e").pack(pady=(30, 10))
         tk.Label(self, text="LOGIN", font=("Helvetica", 12, "bold"),
                  fg="white", bg="#1e1e1e").pack(pady=(0, 10))
 

@@ -1,18 +1,18 @@
 import tkinter as tk
 from tkinter import messagebox
 
+
 class AuthenticationFrame(tk.Frame):
     def __init__(self, parent, on_success):
         super().__init__(parent, bg="#1e1e1e")
         self.on_success = on_success
         self.otp_code = tk.StringVar()
+        self.create_widgets()
         self.otp_code.trace_add("write", self.check_valid)
 
-        self.create_widgets()
+        
 
     def create_widgets(self):
-        tk.Label(self, text="LOGO", font=("Helvetica", 16, "bold"),
-                 fg="white", bg="#1e1e1e").pack(pady=(20, 10))
 
         tk.Label(self, text="AUTHENTICATION", font=("Helvetica", 12, "bold"),
                  fg="white", bg="#1e1e1e").pack(pady=(0, 5))

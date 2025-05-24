@@ -22,9 +22,7 @@ class PunishUserPopup(tk.Toplevel):
         self.create_widgets()
 
     def create_widgets(self):
-        tk.Label(self, text="LOGO", font=("Helvetica", 16, "bold"),
-                 fg="white", bg="#1e1e1e").pack(pady=(20, 5))
-
+        
         tk.Label(self, text="PUNISH USER", font=("Helvetica", 12, "bold"),
                  fg="white", bg="#1e1e1e").pack(pady=(0, 15))
 
