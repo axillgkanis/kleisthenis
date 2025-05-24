@@ -17,7 +17,12 @@ class KleisthenisDashboard(ctk.CTk):
         self.title("Kleisthenis Dashboard")
         self.geometry("1000x700")
 
-        # Header (top row with buttons)
+
+        self.configure(fg_color="#1e293b")  
+        self.grid_columnconfigure(0, weight=0) 
+        self.grid_columnconfigure(1, weight=1) 
+        self.grid_rowconfigure(0, weight=0)     
+        self.grid_rowconfigure(1, weight=1)     
         self.header = ctk.CTkFrame(self, fg_color="#1e293b", height=50)
         self.header.grid(row=0, column=0, columnspan=2, sticky="new")
         self.header.grid_columnconfigure(0, weight=1)
