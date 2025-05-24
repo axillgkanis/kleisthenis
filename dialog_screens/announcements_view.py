@@ -1,7 +1,7 @@
 import customtkinter as ctk
 import json
 import os
-from dialog_screens.announcement_popup import ANNOUNCEMENT_CREATION_SCREEN, EDIT_ANNOUNCEMENT_SCREEN
+from dialog_screens.announcement_popup import ANNOUNCEMENT_CREATION_SCREEN,EDIT_ANNOUNCEMENT_SCREEN
 from announcementHandler import annoucementHandler
 from dialog_screens.DIALOGUE_SCREEN import DIALOGUE_SCREEN
 

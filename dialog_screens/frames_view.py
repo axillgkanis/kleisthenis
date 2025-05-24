@@ -1,6 +1,6 @@
 import customtkinter as ctk
-from dialog_screen.propose_frame import ProposeFramePopup
-from dialog_screen.frame_viewer import FrameViewerPopup
+from dialog_screens.propose_frame import ProposeFramePopup
+from dialog_screens.frame_viewer import FrameViewerPopup
 import json
 import os
 
