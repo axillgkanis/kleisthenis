@@ -4,6 +4,7 @@ import os
 import tkinter as tk
 from datetime import datetime
 from tkcalendar import Calendar
+from PIL import Image
 
 from dialog_screens.frames_view import FramesView
 from dialog_screens.announcements_view import ANNOUNCEMENT_SCREEN
@@ -56,6 +57,13 @@ class KleisthenisDashboard(ctk.CTk):
         self.calendar_widget.bind("<<CalendarSelected>>", self.on_date_hover)
 
         self.mark_calendar_events(self.calendar_widget)
+
+        # Logo κάτω από το ημερολόγιο
+        logo_path = "Cleisthenes_Voting_Logo.png"
+        if os.path.exists(logo_path):
+            logo_image = ctk.CTkImage(Image.open(logo_path), size=(180, 180))
+            logo_label = ctk.CTkLabel(self.sidebar, image=logo_image, text="")
+            logo_label.grid(row=6, column=0, pady=(10, 20))
 
         # Content Area
         self.content = ctk.CTkFrame(self)
