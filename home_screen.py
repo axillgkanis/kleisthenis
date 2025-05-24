@@ -43,7 +43,6 @@ class KleisthenisDashboard(ctk.CTk):
         ctk.CTkButton(self.sidebar, text="Frames", command=self.show_frames).grid(row=1, column=0, pady=5)
         ctk.CTkButton(self.sidebar, text="Announcements", command=self.show_announcements).grid(row=2, column=0, pady=5)
         ctk.CTkButton(self.sidebar, text="Set Meeting", command=self.open_set_meeting).grid(row=3, column=0, pady=5)
-        ctk.CTkButton(self.sidebar, text="Exit", command=self.destroy).grid(row=4, column=0, pady=5)
 
         # Calendar under Exit
         calendar_container = ctk.CTkFrame(self.sidebar, fg_color="transparent")
