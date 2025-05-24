@@ -23,8 +23,7 @@ class KleisthenisDashboard(ctk.CTk):
         self.header.grid_columnconfigure(0, weight=1)
         self.header.grid_columnconfigure(1, weight=0)
 
-        ctk.CTkLabel(self.header, text="KLEISTHENIS ADMIN DASHBOARD", font=ctk.CTkFont(size=18, weight="bold")).grid(row=0, column=0, padx=20, sticky="w")
-
+        ctk.CTkLabel(self.header,text="KLEISTHENIS ADMIN DASHBOARD",font=ctk.CTkFont(size=18, weight="bold"),text_color="white").grid(row=0, column=0, padx=20, sticky="w")
         top_buttons = ctk.CTkFrame(self.header, fg_color="transparent")
         top_buttons.grid(row=0, column=1, padx=10, sticky="e")
 
@@ -38,7 +37,7 @@ class KleisthenisDashboard(ctk.CTk):
         self.grid_columnconfigure(0, minsize=300)
         self.sidebar.grid_rowconfigure(7, weight=1)
 
-        ctk.CTkLabel(self.sidebar, text="Menu", font=ctk.CTkFont(size=20, weight="bold")).grid(row=0, column=0, pady=20)
+        ctk.CTkLabel(self.sidebar, text="Menu", font=ctk.CTkFont(size=20, weight="bold"),text_color="white").grid(row=0, column=0, pady=20)
 
         ctk.CTkButton(self.sidebar, text="Frames", command=self.show_frames).grid(row=1, column=0, pady=5)
         ctk.CTkButton(self.sidebar, text="Announcements", command=self.show_announcements).grid(row=2, column=0, pady=5)
