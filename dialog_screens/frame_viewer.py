@@ -5,7 +5,7 @@ import json
 class FrameViewerPopup(ctk.CTkToplevel):
     def __init__(self, parent, frame_data, user_email="demo@example.com"):
         super().__init__(parent)
-        self.title("View Frame")
+        self.title("Προβολή Πλαισίου")
         self.geometry("400x400")
         self.configure(fg_color="#0f172a")
 
@@ -19,8 +19,6 @@ class FrameViewerPopup(ctk.CTkToplevel):
         votes = frame_data.get("votes", {"agree": 0, "disagree": 0})
 
         # --- UI Elements
-        ctk.CTkLabel(self, text="LOGO", font=("Arial", 18, "bold"), text_color="white").pack(pady=(10, 5))
-        ctk.CTkLabel(self, text=title, font=("Arial", 14, "bold"), text_color="white").pack(pady=(5, 5))
 
         content = f"📄 {os.path.basename(pdf)}" if pdf else description
         ctk.CTkLabel(self, text=content, wraplength=350, font=("Arial", 12), text_color="#e2e8f0").pack(pady=(5, 10))
@@ -37,8 +35,8 @@ class FrameViewerPopup(ctk.CTkToplevel):
         btns = ctk.CTkFrame(self, fg_color="transparent")
         btns.pack(pady=10)
 
-        ctk.CTkButton(btns, text="AGREE", fg_color="#10b981", command=lambda: self.cast_vote("agree")).pack(side="left", padx=10)
-        ctk.CTkButton(btns, text="DISAGREE", fg_color="#ef4444", command=lambda: self.cast_vote("disagree")).pack(side="left", padx=10)
+        ctk.CTkButton(btns, text="NAI", fg_color="#10b981", command=lambda: self.cast_vote("agree")).pack(side="left", padx=10)
+        ctk.CTkButton(btns, text="OXI", fg_color="#ef4444", command=lambda: self.cast_vote("disagree")).pack(side="left", padx=10)
 
     def cast_vote(self, vote_type):
         try:

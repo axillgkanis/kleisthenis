@@ -4,7 +4,7 @@ from announcementHandler import annoucementHandler
 class ANNOUNCEMENT_CREATION_SCREEN(ctk.CTkToplevel):
     def __init__(self, parent, mode="create", index=None, data=None):
         super().__init__(parent)
-        self.title("Create Announcement")
+        self.title("Δημιουργία Ανακοίνωσης")
         self.geometry("400x400")
         self.configure(fg_color="#fef9ff")
 
@@ -12,13 +12,11 @@ class ANNOUNCEMENT_CREATION_SCREEN(ctk.CTkToplevel):
         self.index = index
         self.data = data or {}
 
-        ctk.CTkLabel(self, text="LOGO", font=("Arial", 16, "bold"), text_color="#0f172a").pack(pady=(10, 5))
-
-        ctk.CTkLabel(self, text="Announcement Title", font=("Arial", 12)).pack(pady=(10, 2))
-        self.title_entry = ctk.CTkEntry(self, placeholder_text="Enter title")
+        ctk.CTkLabel(self, text="Τίτλος Ανακοίνωσης", font=("Arial", 12)).pack(pady=(10, 2))
+        self.title_entry = ctk.CTkEntry(self, placeholder_text="Εισάγετε τίτλο")
         self.title_entry.pack(fill="x", padx=20)
 
-        ctk.CTkLabel(self, text="Announcement Body", font=("Arial", 12)).pack(pady=(15, 2))
+        ctk.CTkLabel(self, text="Σώμα Ανακοίνωσης", font=("Arial", 12)).pack(pady=(15, 2))
         self.body_text = ctk.CTkTextbox(self, height=150)
         self.body_text.pack(padx=20, fill="both", expand=True)
 
@@ -26,7 +24,7 @@ class ANNOUNCEMENT_CREATION_SCREEN(ctk.CTkToplevel):
             self.title_entry.insert(0, self.data.get("title", ""))
             self.body_text.insert("0.0", self.data.get("body", ""))
 
-        self.submit_button = ctk.CTkButton(self, text="Submit", 
+        self.submit_button = ctk.CTkButton(self, text="Υποβολή", 
                                          command=self.submit_announcement,
                                          state="disabled")
         
@@ -65,7 +63,7 @@ class ANNOUNCEMENT_CREATION_SCREEN(ctk.CTkToplevel):
         if handler.newAnnouncement():
             self.destroy()
         else:
-            ctk.CTkLabel(self, text="Failed to save announcement", text_color="red").pack()
+            ctk.CTkLabel(self, text="Αδυναμία αποθήκευσης ανακοίνωσης", text_color="red").pack()
 
 
 
@@ -73,7 +71,7 @@ class ANNOUNCEMENT_CREATION_SCREEN(ctk.CTkToplevel):
 class EDIT_ANNOUNCEMENT_SCREEN(ctk.CTkToplevel):
     def __init__(self, parent, mode="create", index=None, data=None):
         super().__init__(parent)
-        self.title("Edit Announcement")
+        self.title("Εοεξεργασία Ανακοίνωσης")
         self.geometry("400x400")
         self.configure(fg_color="#fef9ff")
 
@@ -81,13 +79,11 @@ class EDIT_ANNOUNCEMENT_SCREEN(ctk.CTkToplevel):
         self.index = index
         self.data = data or {}
 
-        ctk.CTkLabel(self, text="LOGO", font=("Arial", 16, "bold"), text_color="#0f172a").pack(pady=(10, 5))
-
-        ctk.CTkLabel(self, text="Announcement Title", font=("Arial", 12)).pack(pady=(10, 2))
+        ctk.CTkLabel(self, text="Τίτλος Ανακοίνωσης", font=("Arial", 12)).pack(pady=(10, 2))
         self.title_entry = ctk.CTkEntry(self, placeholder_text="Enter title")
         self.title_entry.pack(fill="x", padx=20)
 
-        ctk.CTkLabel(self, text="Announcement Body", font=("Arial", 12)).pack(pady=(15, 2))
+        ctk.CTkLabel(self, text="Σώμα Ανακοίνωσης", font=("Arial", 12)).pack(pady=(15, 2))
         self.body_text = ctk.CTkTextbox(self, height=150)
         self.body_text.pack(padx=20, fill="both", expand=True)
 
@@ -95,7 +91,7 @@ class EDIT_ANNOUNCEMENT_SCREEN(ctk.CTkToplevel):
             self.title_entry.insert(0, self.data.get("title", ""))
             self.body_text.insert("0.0", self.data.get("body", ""))
 
-        self.submit_button = ctk.CTkButton(self, text="Submit", 
+        self.submit_button = ctk.CTkButton(self, text="Υποβολή", 
                                          command=self.submit_announcement,
                                          state="disabled")
         
@@ -136,4 +132,4 @@ class EDIT_ANNOUNCEMENT_SCREEN(ctk.CTkToplevel):
         if handler.editAnnouncement():
             self.destroy()
         else:
-            ctk.CTkLabel(self, text="Failed to save announcement", text_color="red").pack()
+            ctk.CTkLabel(self, text="Αδυναμία αποθήκευσης ανακοίνωσης", text_color="red").pack()

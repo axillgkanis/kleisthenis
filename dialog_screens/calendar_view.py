@@ -10,12 +10,12 @@ DATA_FILE = "meeting_data.json"
 class SetMeetingPopup(ctk.CTkToplevel):
     def __init__(self, parent, on_close=None):
         super().__init__(parent)
-        self.title("Set Meeting")
+        self.title("Ορισμός Συνεδρίας")
         self.geometry("500x500")
         self.configure(fg_color="white")
         self.on_close = on_close
 
-        ctk.CTkLabel(self, text="Choose Date & Time", font=("Arial", 18, "bold"), text_color="black").pack(pady=10)
+        ctk.CTkLabel(self, text="Επέλεξε Ημερονη & Ώρα", font=("Arial", 18, "bold"), text_color="black").pack(pady=10)
 
         self.calendar_frame = ctk.CTkFrame(self, fg_color="white")
         self.calendar_frame.pack(pady=10)
@@ -23,17 +23,17 @@ class SetMeetingPopup(ctk.CTkToplevel):
         self.calendar = Calendar(self.calendar_frame, selectmode="day", date_pattern="yyyy-mm-dd")
         self.calendar.pack(pady=5)
 
-        self.start_entry = ctk.CTkEntry(self, placeholder_text="Start time (HH:MM)")
+        self.start_entry = ctk.CTkEntry(self, placeholder_text="Ώρα Έναρξης (HH:MM)")
         self.start_entry.pack(pady=5)
 
-        self.end_entry = ctk.CTkEntry(self, placeholder_text="End time (HH:MM)")
+        self.end_entry = ctk.CTkEntry(self, placeholder_text="Ώρα Λήξης (HH:MM)")
         self.end_entry.pack(pady=5)
 
         btn_frame = ctk.CTkFrame(self, fg_color="white")
         btn_frame.pack(pady=15)
 
-        ctk.CTkButton(btn_frame, text="Submit", command=self.submit_meeting).pack(side="left", padx=10)
-        ctk.CTkButton(btn_frame, text="Delete Date", fg_color="#ef4444", command=self.delete_meeting).pack(side="left", padx=10)
+        ctk.CTkButton(btn_frame, text="Υποβολή", command=self.submit_meeting).pack(side="left", padx=10)
+        ctk.CTkButton(btn_frame, text="Γιαγραφή Ημερομηνίας", fg_color="#ef4444", command=self.delete_meeting).pack(side="left", padx=10)
 
     def get_selected_date(self):
         raw = self.calendar.get_date()
@@ -62,14 +62,14 @@ class SetMeetingPopup(ctk.CTkToplevel):
         end_time = self.end_entry.get().strip()
 
         if self.date_already_exists(date):
-            messagebox.showwarning("Date Exists", f"A meeting is already scheduled on {date}.")
+            messagebox.showwarning("Δεσμευμένη Ημερομηνία", f"Υπάρχει ήδη προγραμματισμένη συνεδρία για {date}.")
             return
 
         try:
             datetime.strptime(start_time, "%H:%M")
             datetime.strptime(end_time, "%H:%M")
         except ValueError:
-            messagebox.showerror("Invalid Format", "Please use valid time format HH:MM.")
+            messagebox.showerror("λάθος Μορφή Ώρας", "Εισάγετε σωστή μορφή ώρας HH:MM.")
             return
 
         new_entry = {
@@ -95,7 +95,7 @@ class SetMeetingPopup(ctk.CTkToplevel):
         with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=4)
 
-        messagebox.showinfo("Success", "Meeting added.")
+        messagebox.showinfo("Επιτυχία", "Ησυνεδρία προστέθηκε με επιτυχία.")
 
         if self.on_close:
             self.on_close()
@@ -106,7 +106,7 @@ class SetMeetingPopup(ctk.CTkToplevel):
         selected_date = self.get_selected_date()
 
         if not os.path.exists(DATA_FILE):
-            messagebox.showinfo("No Data", "No meetings to delete.")
+            messagebox.showinfo("Δεν υπάρχουν δεδομένα", "Δεν υπάρχει συνεδρία γι ανα διαγραφεί.")
             return
 
         with open(DATA_FILE, "r", encoding="utf-8") as f:
@@ -120,13 +120,13 @@ class SetMeetingPopup(ctk.CTkToplevel):
         updated_data = [entry for entry in data if entry.get("date") != selected_date]
 
         if len(updated_data) == len(data):
-            messagebox.showinfo("Nothing Found", "No meetings found for selected date.")
+            messagebox.showinfo("Δεν βρέθηκαν δεδομένα", "Δεν βρέθηκ εσυνεδρία για την επιλεγμένη ημερομηνία.")
             return
 
         with open(DATA_FILE, "w", encoding="utf-8") as f:
             json.dump(updated_data, f, indent=4)
 
-        messagebox.showinfo("Deleted", f"Meetings on {selected_date} deleted.")
+        messagebox.showinfo("Διαγράφηκε", f"Η συνεδρία για {selected_date} διαγράφηκε.")
 
         if self.on_close:
             self.on_close()

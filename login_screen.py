@@ -8,7 +8,7 @@ def launch_dashboard():
     KleisthenisDashboard().mainloop()
 
 root = tk.Tk()
-root.title("LoginScreen")
+root.title("Σύνδεση")
 root.geometry("600x400")
 
 login = LoginScreen(root, on_submit_callback=launch_dashboard)

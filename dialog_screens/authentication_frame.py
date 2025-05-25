@@ -17,18 +17,18 @@ class AuthenticationFrame(tk.Frame):
         tk.Label(self, text="AUTHENTICATION", font=("Helvetica", 12, "bold"),
                  fg="white", bg="#1e1e1e").pack(pady=(0, 5))
 
-        tk.Label(self, text="Enter the OTP sent to your email", font=("Helvetica", 10),
+        tk.Label(self, text="Εισάγετε τον κωδικό OTP που έχει σταλεί στο mail σας", font=("Helvetica", 10),
                  fg="white", bg="#1e1e1e").pack(pady=(0, 20))
 
-        self.otp_entry = tk.Entry(self, textvariable=self.otp_code, width=30, fg="grey")
-        self.otp_entry.insert(0, "Enter OTP code")
+        self.otp_entry = tk.Entry(self, textvariable=self.otp_code, width=30, fg="grey",bg="#1e1e1e", insertbackground="white",highlightthickness=1, highlightbackground="white", highlightcolor="white", relief='solid')
+        self.otp_entry.insert(0, "Εισάγετε τον κωδικό OTP")
         self.otp_entry.bind("<FocusIn>", self.clear_placeholder)
         self.otp_entry.bind("<FocusOut>", self.restore_placeholder)
         self.otp_entry.pack(pady=(0, 20))
 
         self.submit_button = tk.Button(
             self,
-            text="SUBMIT",
+            text="Υποβολή",
             command=self.submit,
             font=("Helvetica", 12, "bold"),
             bg="white",
@@ -39,19 +39,19 @@ class AuthenticationFrame(tk.Frame):
         self.submit_button.pack()
 
     def clear_placeholder(self, event):
-        if self.otp_entry.get() == "Enter OTP code":
+        if self.otp_entry.get() == "Εισάγετε τον κωδικό OTP":
             self.otp_entry.delete(0, tk.END)
             self.otp_entry.config(fg="white")
 
     def restore_placeholder(self, event):
         if not self.otp_entry.get():
-            self.otp_entry.insert(0, "Enter OTP code")
+            self.otp_entry.insert(0, "Enter OTP ")
             self.otp_entry.config(fg="grey")
             self.submit_button.config(state="disabled")
 
     def check_valid(self, *args):
         otp = self.otp_code.get()
-        if otp.strip() and otp != "Enter OTP code":
+        if otp.strip() and otp != "Εισάγετε τον κωδικό OTP":
             self.submit_button.config(state="normal")
         else:
             self.submit_button.config(state="disabled")
@@ -59,9 +59,9 @@ class AuthenticationFrame(tk.Frame):
     def submit(self):
         otp = self.otp_code.get()
         if otp == "Enter OTP code" or not otp.strip():
-            messagebox.showwarning("Missing OTP", "Please enter the OTP code.")
+            messagebox.showwarning("Λείπει ο κωδικός OTP", "Εισάγετε τον κωδικό.")
             return
 
-        messagebox.showinfo("Submitted", f"OTP Entered: {otp}")
+        #messagebox.showinfo("Submitted", f"OTP Entered: {otp}")
         if self.on_success:
             self.on_success()

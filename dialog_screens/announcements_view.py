@@ -1,9 +1,9 @@
 import customtkinter as ctk
 import json
 import os
-from dialog_screens.announcement_popup import ANNOUNCEMENT_CREATION_SCREEN,EDIT_ANNOUNCEMENT_SCREEN
+import tkinter.messagebox as messagebox
+from dialog_screens.announcement_popup import ANNOUNCEMENT_CREATION_SCREEN, EDIT_ANNOUNCEMENT_SCREEN
 from announcementHandler import annoucementHandler
-from dialog_screens.DIALOGUE_SCREEN import DIALOGUE_SCREEN
 
 class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
     def __init__(self, parent):
@@ -12,7 +12,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.announcements = []
         self.selected_index = None
 
-        ctk.CTkLabel(self, text="Announcements", font=("Arial", 20, "bold")).pack(pady=10)
+        ctk.CTkLabel(self, text="Ανακοινώσεις", font=("Arial", 20, "bold")).pack(pady=10)
 
         container = ctk.CTkFrame(self, fg_color="transparent")
         container.pack(fill="both", expand=True, padx=20, pady=10)
@@ -24,7 +24,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.list_buttons = []
         self.refresh_list()
 
-        ctk.CTkButton(self.list_panel, text="+ Create Announcement", command=self.open_create_announcement_popup).pack(pady=10)
+        ctk.CTkButton(self.list_panel, text="+ Δημιουργία Ανακοίνωσης", command=self.open_create_announcement_popup).pack(pady=10)
 
         # Detail Panel (Right)
         self.detail_panel = ctk.CTkFrame(container)
@@ -37,7 +37,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.body_label.pack(padx=10, pady=5, fill="both", expand=True)
         self.body_label.configure(state="disabled")
 
-        self.edit_button = ctk.CTkButton(self.detail_panel, text="Edit", command=self.open_edit_announcement_popup)
+        self.edit_button = ctk.CTkButton(self.detail_panel, text="Επεξεργασία", command=self.open_edit_announcement_popup)
         self.edit_button.pack(pady=5)
         self.edit_button.configure(state="disabled")
 
@@ -111,10 +111,12 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
                 self.body_label.configure(state="disabled")
                 self.edit_button.configure(state="disabled")
 
-                DIALOGUE_SCREEN().displaySuccess(
-                    f"Announcement '{deleted_title}' was successfully deleted."
+                messagebox.showinfo(
+                    "Διαγράφηκε",
+                    f"Η ανακοίνωση '{deleted_title}' διαγράφηκε με επιτυχία."
                 )
         else:
-            DIALOGUE_SCREEN().displayFail(
-                "Failed to delete the announcement. Please try again."
-            )           
+            messagebox.showerror(
+                "Αποτυχία",
+                "Αδυναμία διαγραφής ανακοίνωσης."
+            )

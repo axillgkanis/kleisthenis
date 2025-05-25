@@ -33,9 +33,9 @@ class KleisthenisDashboard(ctk.CTk):
         top_buttons = ctk.CTkFrame(self.header, fg_color="transparent")
         top_buttons.grid(row=0, column=1, padx=10, sticky="e")
 
-        ctk.CTkButton(top_buttons, text="Set Email Regex", command=self.open_email_regex, fg_color="#10b981").pack(side="left", padx=5)
-        ctk.CTkButton(top_buttons, text="Punish User",command=self.open_punish_user, fg_color="#7c3aed").pack(side="left", padx=5)
-        ctk.CTkButton(top_buttons, text="Logout", fg_color="#ef4444", command=self.destroy).pack(side="left", padx=5)
+        ctk.CTkButton(top_buttons, text="Ορισμός Επιτρεπτών Εmail", command=self.open_email_regex, fg_color="#10b981").pack(side="left", padx=5)
+        ctk.CTkButton(top_buttons, text="Ορισμος Ποινής",command=self.open_punish_user, fg_color="#7c3aed").pack(side="left", padx=5)
+        ctk.CTkButton(top_buttons, text="Αποσύνδεση", fg_color="#ef4444", command=self.destroy).pack(side="left", padx=5)
 
         # Sidebar
         self.sidebar = ctk.CTkFrame(self, width=300, fg_color="#1e293b")
@@ -51,9 +51,9 @@ class KleisthenisDashboard(ctk.CTk):
 
         ctk.CTkLabel(self.sidebar, text="Menu", font=ctk.CTkFont(size=20, weight="bold"),text_color="white").grid(row=1, column=0, pady=20)
 
-        ctk.CTkButton(self.sidebar, text="Frames", command=self.show_frames).grid(row=2, column=0, pady=5)
-        ctk.CTkButton(self.sidebar, text="Announcements", command=self.show_announcements).grid(row=3, column=0, pady=5)
-        ctk.CTkButton(self.sidebar, text="Set Meeting", command=self.open_set_meeting).grid(row=4, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Πλαίσια", command=self.show_frames).grid(row=2, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Ανακοινώσεις", command=self.show_announcements).grid(row=3, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Ορισμός Συνεδρίας", command=self.open_set_meeting).grid(row=4, column=0, pady=5)
 
         # Calendar under Exit
         calendar_container = ctk.CTkFrame(self.sidebar, fg_color="transparent")
@@ -68,14 +68,14 @@ class KleisthenisDashboard(ctk.CTk):
 
         self.mark_calendar_events(self.calendar_widget)
 
-        # Logo κάτω από το ημερολόγιο
+        
         logo_path = "Cleisthenes_Voting_Logo.png"
         if os.path.exists(logo_path):
             logo_image = ctk.CTkImage(Image.open(logo_path), size=(180, 180))
             logo_label = ctk.CTkLabel(self.sidebar, image=logo_image, text="")
             logo_label.grid(row=6, column=0, pady=(10, 20))
 
-        # Content Area
+       
         self.content = ctk.CTkFrame(self)
         self.content.grid(row=1, column=1, sticky="nsew")
         self.grid_columnconfigure(1, weight=1)
@@ -134,11 +134,11 @@ class KleisthenisDashboard(ctk.CTk):
         meeting_info = next((entry for entry in self.load_meeting_data() if entry["date"] == selected_date), None)
 
         if meeting_info:
-            message = f"Meeting on {selected_date}\nStart: {meeting_info.get('start_time')}\nEnd: {meeting_info.get('end_time')}\nStatus: {meeting_info.get('status')}"
+            message = f"Συνεδρία στις {selected_date}\nΈναρξη: {meeting_info.get('start_time')}\nΛήξη: {meeting_info.get('end_time')}\nΚατάσταση: {meeting_info.get('status')}"
         else:
-            message = f"No meeting scheduled on {selected_date}."
+            message = f"Καμία προγραμματισμένη συνεδρία για {selected_date}."
 
-        tk.messagebox.showinfo("Meeting Info", message)
+        tk.messagebox.showinfo("Πληροφορίες Συνεδρίας", message)
 
 if __name__ == "__main__":
     app = KleisthenisDashboard()
