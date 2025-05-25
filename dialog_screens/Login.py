@@ -18,20 +18,19 @@ class LoginScreen(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        # Logo & Τίτλος
-        tk.Label(self, text="LOGIN", font=("Helvetica", 12, "bold"),
+       
+        tk.Label(self, text="Σύνδεση", font=("Helvetica", 12, "bold"),
                  fg="white", bg="#1e1e1e").pack(pady=(0, 10))
 
-        # Email
+        
         tk.Label(self, text="email:", fg="white", bg="#1e1e1e").pack()
         tk.Entry(self, textvariable=self.email, width=30).pack(pady=(0, 10))
 
-        # Checkbox για admin
-        tk.Checkbutton(self, text="Are you an admin?", variable=self.is_admin,
+        tk.Checkbutton(self, text="Είσαι διαχειριστής?", variable=self.is_admin,
                        command=self.toggle_admin_entry, fg="white", bg="#1e1e1e",
                        selectcolor="#1e1e1e").pack(pady=5)
 
-        # Admin κωδικός + μάτι
+        
         self.admin_frame = tk.Frame(self, bg="#1e1e1e")
         self.admin_entry = tk.Entry(self.admin_frame, textvariable=self.admin_code, width=25, show="*")
         self.admin_entry.pack(side="left", padx=(0, 5))
@@ -48,7 +47,7 @@ class LoginScreen(tk.Frame):
 
         self.submit_button = tk.Button(
             self,
-            text="SUBMIT",
+            text="Υποβολή",
             command=self.submit,
             font=("Helvetica", 12, "bold"),
             bg="white",
@@ -85,16 +84,16 @@ class LoginScreen(tk.Frame):
         is_admin = self.is_admin.get()
         code = self.admin_code.get() if is_admin else None
 
-        # Έλεγχος εγκυρότητας email
+        
         pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$'
         if not re.match(pattern, email):
-            messagebox.showerror("Invalid Email", "Please enter a valid email address.")
+            messagebox.showerror("Λάθος Email", "Εισάγετε σωστή διεύθυνση mail.")
             return
 
-        # Καθαρισμός οθόνης
+        
         for widget in self.winfo_children():
             widget.destroy()
 
-        # Εμφάνιση authentication μέσα στο ίδιο frame
+        
         auth = AuthenticationFrame(self, on_success=self.on_submit_callback)
         auth.pack(fill="both", expand=True)

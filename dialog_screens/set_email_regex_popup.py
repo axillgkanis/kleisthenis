@@ -4,18 +4,18 @@ from tkinter import messagebox, ttk
 class SetEmailRegexPopup(tk.Toplevel):
     def __init__(self, parent, on_submit=None):
         super().__init__(parent)
-        self.title("Set Email Regex")
+        self.title("Ορισμός Επιτρεπτών Email")
         self.geometry("420x300")
         self.configure(bg="#1e1e1e")
 
         self.username = tk.StringVar()
         self.domain = tk.StringVar()
         self.tld = tk.StringVar()
-        self.tld.set("com")  # default επιλογή
+        self.tld.set("com")  
 
         self.on_submit = on_submit
 
-        # Συνδέουμε trace για ενεργοποίηση του κουμπιού
+        
         self.username.trace_add("write", self.check_fields)
         self.domain.trace_add("write", self.check_fields)
         self.tld.trace_add("write", self.check_fields)
@@ -24,13 +24,13 @@ class SetEmailRegexPopup(tk.Toplevel):
 
     def create_widgets(self):
         
-        tk.Label(self, text="SET EMAIL REGEX", font=("Helvetica", 12, "bold"),
+        tk.Label(self, text="Ορισμός Επιτρεπτών Email", font=("Helvetica", 12, "bold"),
                  fg="white", bg="#1e1e1e").pack(pady=(0, 15))
 
         frame = tk.Frame(self, bg="#1e1e1e")
         frame.pack(pady=(0, 20))
 
-        # Email μορφή: username @ domain . [dropdown]
+        
         tk.Entry(frame, textvariable=self.username, width=10).pack(side="left", padx=3)
         tk.Label(frame, text="@", fg="white", bg="#1e1e1e").pack(side="left", padx=3)
         tk.Entry(frame, textvariable=self.domain, width=10).pack(side="left", padx=3)
@@ -39,13 +39,13 @@ class SetEmailRegexPopup(tk.Toplevel):
 
         self.submit_button = tk.Button(
             self,
-            text="SUBMIT",
+            text="Υποβολή",
             font=("Helvetica", 12, "bold"),
             bg="white",
             fg="black",
             width=20,
             command=self.submit,
-            state="disabled"  # αρχικά ανενεργό
+            state="disabled" 
         )
         self.submit_button.pack()
 
@@ -62,7 +62,7 @@ class SetEmailRegexPopup(tk.Toplevel):
 
         email = f"{user}@{dom}.{tld}"
 
-        messagebox.showinfo("Regex Set", f"Email set to: {email}")
+        messagebox.showinfo("Ορίστηκαν Επιτρεπτά Email", f"Το Email Ορίστηκε σε: {email}")
 
         if self.on_submit:
             self.on_submit(email)
