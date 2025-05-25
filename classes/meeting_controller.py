@@ -1,4 +1,4 @@
-from blockchain import Blockchain
+from classes.blockchain import Blockchain
 from announcement_manager import AnnouncementManager
 from framework_manager import FrameworkManager
 from database_manager import DatabaseManager
@@ -33,7 +33,6 @@ class MeetingController:
                 continue
 
             # Count votes for the framework
-            total_votes = sum(votes.values())
             max_votes = max(votes.values())
             tied = list(votes.values()).count(max_votes) > 1
 
