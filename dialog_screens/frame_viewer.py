@@ -24,7 +24,7 @@ class FrameViewerPopup(ctk.CTkToplevel):
         ctk.CTkLabel(self, text=content, wraplength=350, font=("Arial", 12), text_color="#e2e8f0").pack(pady=(5, 10))
         #if user has already vote
         if self.user_email in voted_by:
-            voted_text = "AGREE" if votes.get("agree", 0) >= votes.get("disagree", 0) else "DISAGREE"
+            voted_text = "ΥΠΕΡ" if votes.get("agree", 0) >= votes.get("disagree", 0) else "ΚΑΤΑ"
             color = "#10b981" if voted_text == "AGREE" else "#ef4444"
 
             ctk.CTkButton(self, text=voted_text, fg_color=color, state="disabled").pack(pady=10)
@@ -35,8 +35,8 @@ class FrameViewerPopup(ctk.CTkToplevel):
         btns = ctk.CTkFrame(self, fg_color="transparent")
         btns.pack(pady=10)
 
-        ctk.CTkButton(btns, text="NAI", fg_color="#10b981", command=lambda: self.cast_vote("agree")).pack(side="left", padx=10)
-        ctk.CTkButton(btns, text="OXI", fg_color="#ef4444", command=lambda: self.cast_vote("disagree")).pack(side="left", padx=10)
+        ctk.CTkButton(btns, text="ΥΠΕΡ", fg_color="#10b981", command=lambda: self.cast_vote("agree")).pack(side="left", padx=10)
+        ctk.CTkButton(btns, text="ΚΑΤΑ", fg_color="#ef4444", command=lambda: self.cast_vote("disagree")).pack(side="left", padx=10)
 
     def cast_vote(self, vote_type):
         try:
