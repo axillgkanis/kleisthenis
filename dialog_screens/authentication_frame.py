@@ -15,12 +15,12 @@ class AuthenticationFrame(tk.Frame):
     def create_widgets(self):
 
         tk.Label(self, text="AUTHENTICATION", font=("Helvetica", 12, "bold"),
-                 fg="white", bg="#1e1e1e").pack(pady=(0, 5))
+                 fg="white", bg="#1e1e1e").pack(pady=(40, 20))
 
         tk.Label(self, text="Εισάγετε τον κωδικό OTP που έχει σταλεί στο mail σας", font=("Helvetica", 10),
                  fg="white", bg="#1e1e1e").pack(pady=(0, 20))
 
-        self.otp_entry = tk.Entry(self, textvariable=self.otp_code, width=30, fg="grey",bg="#1e1e1e", insertbackground="white",highlightthickness=1, highlightbackground="white", highlightcolor="white", relief='solid')
+        self.otp_entry = tk.Entry(self, textvariable=self.otp_code, width=30, fg="grey")
         self.otp_entry.insert(0, "Εισάγετε τον κωδικό OTP")
         self.otp_entry.bind("<FocusIn>", self.clear_placeholder)
         self.otp_entry.bind("<FocusOut>", self.restore_placeholder)
@@ -45,7 +45,7 @@ class AuthenticationFrame(tk.Frame):
 
     def restore_placeholder(self, event):
         if not self.otp_entry.get():
-            self.otp_entry.insert(0, "Enter OTP ")
+            self.otp_entry.insert(0, "Εισάγετε τον κωδικό OTP")
             self.otp_entry.config(fg="grey")
             self.submit_button.config(state="disabled")
 
