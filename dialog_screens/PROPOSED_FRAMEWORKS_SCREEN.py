@@ -131,7 +131,7 @@ class PROPOSED_FRAMEWORKS_SCREEN(ctk.CTkFrame):
                     frame_data = details
             
             # Display the framework in a popup
-            popup = FrameViewerPopup(self, frame_data)
+            popup = FRAMEWORK_SCREEN(self, frame_data)
             
             # Wait for the popup to close and then refresh the list
             self.wait_window(popup)

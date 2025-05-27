@@ -56,6 +56,7 @@ class KleisthenisDashboard(ctk.CTk):
         ctk.CTkButton(self.sidebar, text="Ανακοινώσεις", command=self.show_announcements).grid(row=3, column=0, pady=5)
         ctk.CTkButton(self.sidebar, text="Ορισμός Συνεδρίας", command=self.open_set_meeting).grid(row=4, column=0, pady=5)
         ctk.CTkButton(self.sidebar, text="Προτεινόμενα Πλαίσια", command=self.show_proposed_frameworks).grid(row=5, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Πρόταση Πλαισίου", command=self.open_propose_popup).grid(row=6, column=0, pady=5)
 
         # Calendar under Exit
         calendar_container = ctk.CTkFrame(self.sidebar, fg_color="transparent")
@@ -108,6 +109,11 @@ class KleisthenisDashboard(ctk.CTk):
         self.clear_content()
         self.current_view = PROPOSED_FRAMEWORKS_SCREEN(self.content)
         self.current_view.pack(fill="both", expand=True)
+
+    def open_propose_popup(self):
+        from dialog_screens.FRAME_PROPOSAL_SCREEN import FRAME_PROPOSAL_SCREEN
+        popup = FRAME_PROPOSAL_SCREEN(self)
+        popup.grab_set()
 
     def open_email_regex(self):
       SetEmailRegexPopup(self)

@@ -36,6 +36,7 @@ class frameManager:
             print(f"Error retrieving framework details: {e}")
             return None
 
+    # In frameManager.py
     def createVote(self, framework_id, vote_choice, voter_id):
         """
         Creates a vote for a framework and updates its status
@@ -46,40 +47,51 @@ class frameManager:
         Returns: True if successful, False otherwise
         """
         try:
+            vote = 1 if vote_choice == "agree" else 0
             # Update framework status in database
-            result = dbManager.updateProposedFrameworkStatus(framework_id, voted=True)
+            result = dbManager.updateProposedFrameworkStatus(framework_id, vote)
             
+            # Add vote to blockchain for transparency (if implemented)
+            # if result:
+            #     self.blockchain.add_vote(
+            #         topic_id=f"framework-{framework_id}",
+            #         voter_id=voter_id,
+            #         choice=vote_choice
+            #     )
+            #     self.blockchain.save_to_file()
+                
             return result
         except Exception as e:
             print(f"Error creating vote: {e}")
             return False
+    
 
-    # def proposeNewFramework(self, title, body):
-    #     """
-    #     Creates a new proposed framework in the database
-    #     Args:
-    #         title: Title of the proposed framework
-    #         body: Content/description of the proposed framework
-    #     Returns: ID of the new framework if successful, None otherwise
-    #     """
-    #     try:
-    #         # Insert new framework into database
-    #         new_framework_id = dbManager.insertProposedFramework(title, body)
+    def proposeFramework(self, title, body):
+        """
+        Creates a new proposed framework in the database
+        Args:
+            title: Title of the proposed framework
+            body: Content/description of the proposed framework
+        Returns: ID of the new framework if successful, None otherwise
+        """
+        try:
+            # Insert new framework into database
+            new_framework_id = dbManager.insertProposedFramework(title, body)
             
-    #         # Create a new topic in blockchain
-    #         if new_framework_id:
-    #             self.blockchain.add_topic_block(
-    #                 topic_id=f"framework-{new_framework_id}",
-    #                 title=title,
-    #                 description=body,
-    #                 options=["agree", "disagree"]
-    #             )
-    #             self.blockchain.save_to_file()
+            # Create a new topic in blockchain
+            # if new_framework_id:
+            #     self.blockchain.add_topic_block(
+            #         topic_id=f"framework-{new_framework_id}",
+            #         title=title,
+            #         description=body,
+            #         options=["agree", "disagree"]
+            #     )
+            #     self.blockchain.save_to_file()
             
-    #         return new_framework_id
-    #     except Exception as e:
-    #         print(f"Error proposing new framework: {e}")
-    #         return None
+            return new_framework_id
+        except Exception as e:
+            print(f"Error proposing new framework: {e}")
+            return None
 
     # def approveFramework(self, framework_id):
     #     """

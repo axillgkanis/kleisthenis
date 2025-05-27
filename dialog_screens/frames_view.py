@@ -1,5 +1,5 @@
 import customtkinter as ctk
-from dialog_screens.propose_frame import ProposeFramePopup
+from dialog_screens.FRAME_PROPOSAL_SCREEN import FRAME_PROPOSAL_SCREEN
 from dialog_screens.FRAMEWORK_SCREEN import FRAMEWORK_SCREEN
 import json
 import os
@@ -32,15 +32,7 @@ class FramesView(ctk.CTkFrame):
         btns = ctk.CTkFrame(self, fg_color="transparent")
         btns.pack(pady=10)
 
-        ctk.CTkButton(btns, text="Propose Frame", command=self.open_propose_popup).pack(side="left", padx=10)
-        #ctk.CTkButton(btns, text="View Proposed Frames", command=self.open_popup_view).pack(side="left", padx=10)
 
-        self.load_frames()
-        self.render_frame_list()
-
-    def open_propose_popup(self):
-        popup = ProposeFramePopup(self)
-        self.wait_window(popup)
         self.load_frames()
         self.render_frame_list()
 
