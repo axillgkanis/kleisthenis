@@ -1,7 +1,7 @@
 import mysql.connector
 from dbManager import dbManager
 from dialog_screens.DIALOGUE_SCREEN import DIALOGUE_SCREEN
-from blockchain import Blockchain
+from classes.blockchain import Blockchain
 
 class frameManager:
     def __init__(self):

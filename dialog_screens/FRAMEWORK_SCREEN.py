@@ -2,7 +2,7 @@ import customtkinter as ctk
 import os
 import json
 
-class FrameViewerPopup(ctk.CTkToplevel):
+class FRAMEWORK_SCREEN(ctk.CTkToplevel):
     def __init__(self, parent, frame_data, user_email="demo@example.com"):
         super().__init__(parent)
         self.title("Προβολή Πλαισίου")

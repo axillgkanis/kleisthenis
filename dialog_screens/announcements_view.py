@@ -22,7 +22,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.list_panel.pack(side="left", fill="y", padx=(0, 10))
 
         self.list_buttons = []
-        self.refresh_list()
+        self.displayAnnouncementsScreen()
 
         ctk.CTkButton(self.list_panel, text="+ Δημιουργία Ανακοίνωσης", command=self.open_create_announcement_popup).pack(pady=10)
 
@@ -42,7 +42,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.edit_button.configure(state="disabled")
 
     #helper function to load data
-    def refresh_list(self):
+    def displayAnnouncementsScreen(self):
         for btn in self.list_buttons:
             btn.destroy()
         self.list_buttons = []
@@ -69,7 +69,6 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         if self.announcements is None:
             self.announcements = []
 
-    #exluded from the uses cases because of simplicity
     def displayAnnouncementScreen(self, index):
         self.selected_index = index
         announcement = self.announcements[index]
@@ -84,7 +83,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
 
     #helper for create announcement pop up
     def open_create_announcement_popup(self):
-        ANNOUNCEMENT_CREATION_SCREEN.displayAnnouncementScreen(self)
+        ANNOUNCEMENT_CREATION_SCREEN.displayCreateAnnouncement(self)
 
     #helper for edit announcement pop up
     def open_edit_announcement_popup(self):
@@ -102,7 +101,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
             
             if handler.deleteAnnouncement():
                 deleted_title = announcement_data['title']
-                self.refresh_list()
+                self.displayAnnouncementsScreen()
                 
                 # Clear the detail panel
                 self.title_label.configure(text="")

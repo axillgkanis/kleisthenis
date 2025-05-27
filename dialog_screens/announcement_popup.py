@@ -34,7 +34,7 @@ class ANNOUNCEMENT_CREATION_SCREEN(ctk.CTkToplevel):
         self.title_entry.bind('<KeyRelease>', self.enableSubmit)
         self.body_text.bind('<KeyRelease>', self.enableSubmit)
 
-    def displayAnnouncementScreen(parent):
+    def displayCreateAnnouncement(parent):
         popup = ANNOUNCEMENT_CREATION_SCREEN(parent, mode="create")
         parent.wait_window(popup)
         parent.refresh_list()
