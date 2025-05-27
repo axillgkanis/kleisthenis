@@ -20,7 +20,7 @@ class LoginScreen(tk.Frame):
     def create_widgets(self):
        
         tk.Label(self, text="Σύνδεση", font=("Helvetica", 12, "bold"),
-                 fg="white", bg="#1e1e1e").pack(pady=(0, 10))
+                 fg="white", bg="#1e1e1e").pack(pady=(40, 10))
 
         
         tk.Label(self, text="email:", fg="white", bg="#1e1e1e").pack()
