@@ -24,10 +24,10 @@ class PunishUserPopup(tk.Toplevel):
     def create_widgets(self):
         
         tk.Label(self, text="ΟΡΙΣΜΟΣ ΠΟΙΝΗΣ ΧΡΗΣΤΗ", font=("Helvetica", 12, "bold"),
-                 fg="white", bg="#1e1e1e").pack(pady=(0, 15))
+                 fg="white", bg="#1e1e1e").pack(pady=(40, 20))
 
         tk.Label(self, text="Χρονική Περίοδος Διακοπής (Μέρες):", fg="white", bg="#1e1e1e").pack()
-        tk.Entry(self, textvariable=self.timeout_days, width=30).pack(pady=(0, 10))
+        tk.Entry(self, textvariable=self.timeout_days, width=30).pack(pady=(0, 15))
 
         tk.Label(self, text="Αιτιολογία:", fg="white", bg="#1e1e1e").pack()
         tk.Entry(self, textvariable=self.reason, width=30).pack(pady=(0, 10))
@@ -63,7 +63,7 @@ class PunishUserPopup(tk.Toplevel):
         reason = self.reason.get().strip()
 
         if not days.isdigit() or int(days) <= 0:
-            messagebox.showerror("Λάθος περίοδοις", "Η περίοδος διακοπής πρέπει να είναι θετικός ακέραιος.")
+            messagebox.showerror("Λάθος περίοδος", "Η περίοδος διακοπής πρέπει να είναι θετικός ακέραιος.")
             return
 
         pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$'
