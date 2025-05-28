@@ -11,6 +11,7 @@ from dialog_screens.announcements_view import ANNOUNCEMENT_SCREEN
 from dialog_screens.set_meeting import SetMeetingPopup
 from dialog_screens.set_email_regex_popup import SetEmailRegexPopup
 from dialog_screens.punish_user import PunishUserPopup
+from dialog_screens.PROPOSED_FRAMEWORKS_SCREEN import PROPOSED_FRAMEWORKS_SCREEN
 
 class KleisthenisDashboard(ctk.CTk):
     def __init__(self):
@@ -54,10 +55,12 @@ class KleisthenisDashboard(ctk.CTk):
         ctk.CTkButton(self.sidebar, text="Πλαίσια", command=self.show_frames).grid(row=2, column=0, pady=5)
         ctk.CTkButton(self.sidebar, text="Ανακοινώσεις", command=self.show_announcements).grid(row=3, column=0, pady=5)
         ctk.CTkButton(self.sidebar, text="Ορισμός Συνεδρίας", command=self.open_set_meeting).grid(row=4, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Προτεινόμενα Πλαίσια", command=self.show_proposed_frameworks).grid(row=5, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Πρόταση Πλαισίου", command=self.open_propose_popup).grid(row=6, column=0, pady=5)
 
         # Calendar under Exit
         calendar_container = ctk.CTkFrame(self.sidebar, fg_color="transparent")
-        calendar_container.grid(row=5, column=0, padx=10, pady=(20, 10))
+        calendar_container.grid(row=7, column=0, padx=10, pady=(20, 10))
 
         calendar_native = tk.Frame(calendar_container)
         calendar_native.pack()
@@ -73,7 +76,7 @@ class KleisthenisDashboard(ctk.CTk):
         if os.path.exists(logo_path):
             logo_image = ctk.CTkImage(Image.open(logo_path), size=(180, 180))
             logo_label = ctk.CTkLabel(self.sidebar, image=logo_image, text="")
-            logo_label.grid(row=6, column=0, pady=(10, 20))
+            logo_label.grid(row=8, column=0, pady=(10, 20))
 
        
         self.content = ctk.CTkFrame(self)
@@ -100,6 +103,16 @@ class KleisthenisDashboard(ctk.CTk):
 
     def open_set_meeting(self):
         popup = SetMeetingPopup(self, on_close=self.refresh_calendar)
+        popup.grab_set()
+
+    def show_proposed_frameworks(self):
+        self.clear_content()
+        self.current_view = PROPOSED_FRAMEWORKS_SCREEN(self.content)
+        self.current_view.pack(fill="both", expand=True)
+
+    def open_propose_popup(self):
+        from dialog_screens.FRAME_PROPOSAL_SCREEN import FRAME_PROPOSAL_SCREEN
+        popup = FRAME_PROPOSAL_SCREEN(self)
         popup.grab_set()
 
     def open_email_regex(self):

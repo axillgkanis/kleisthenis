@@ -1,9 +1,9 @@
 import customtkinter as ctk
 from tkinter import filedialog
-import os
-import json
+from dialog_screens.frameManager import frameManager
+from dialog_screens.DIALOGUE_SCREEN import DIALOGUE_SCREEN
 
-class ProposeFramePopup(ctk.CTkToplevel):
+class FRAME_PROPOSAL_SCREEN(ctk.CTkToplevel):
     def __init__(self, parent):
         super().__init__(parent)
         self.title("Πρόταση Πλαισίου")
@@ -28,7 +28,21 @@ class ProposeFramePopup(ctk.CTkToplevel):
         ctk.CTkButton(self, text="📎 Επέλεξε αρχείο", command=self.select_pdf).pack(pady=(10, 5))
 
         # --- Submit
-        ctk.CTkButton(self, text="Υποβολή", command=self.submit_frame).pack(pady=(10, 5))
+        self.submit_button = ctk.CTkButton(self, text="Υποβολή", command=self.submit_frame, state="disabled")
+        self.submit_button.pack(pady=(10, 5))
+        
+        # Add bindings for text changes
+        self.title_entry.bind('<KeyRelease>', self.enableSubmit)
+        self.desc_text.bind('<KeyRelease>', self.enableSubmit)
+
+    def enableSubmit(self, event=None):
+        title = self.title_entry.get().strip()
+        description = self.desc_text.get("0.0", "end").strip()
+        
+        if title and description:
+            self.submit_button.configure(state="normal")
+        else:
+            self.submit_button.configure(state="disabled")
 
     def select_pdf(self):
         path = filedialog.askopenfilename(filetypes=[("PDF files", "*.pdf")])
@@ -45,26 +59,18 @@ class ProposeFramePopup(ctk.CTkToplevel):
             ctk.CTkLabel(self, text="Απαιτήται τίτλος", text_color="red").pack()
             return
 
-        new_frame = {
-            "title": title,
-            "description": description if not self.pdf_path else "",
-            "pdf_file": self.pdf_path if self.pdf_path else None,
-            "status": "pending"
-        }
-
         try:
-            if os.path.exists("proposed_frames.json"):
-                with open("proposed_frames.json", "r", encoding="utf-8") as f:
-                    data = json.load(f)
+            # Create instance of frameManager
+            manager = frameManager()
+            
+            # Call proposeNewFramework method to save to database
+            result = manager.proposeFramework(title, description)
+            
+            if result:
+                self.destroy()
+                DIALOGUE_SCREEN().displaySuccess("Το πλαίσιο προτάθηκε με επιτυχία!")
             else:
-                data = []
-
-            data.append(new_frame)
-
-            with open("proposed_frames.json", "w", encoding="utf-8") as f:
-                json.dump(data, f, indent=4)
-
-            self.destroy()
-
+                ctk.CTkLabel(self, text="Αδυναμία αποθήκευσης πλαισίου", text_color="red").pack()
+                
         except Exception as e:
             ctk.CTkLabel(self, text=f"Σφάλμα: {e}", text_color="red").pack()

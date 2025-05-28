@@ -128,7 +128,7 @@ class dbManager:
             print(f"Error retrieving framework details: {e}")
             return None
 
-    def updateProposedFrameworkStatus(framework_id, voted=False):
+    def updateProposedFrameworkStatus(framework_id, vote):
         """
         Update the vote status of a framework
         Args:
@@ -140,8 +140,8 @@ class dbManager:
             conn = mysql.connector.connect(**DB_CONFIG)
             cursor = conn.cursor()
             cursor.execute(
-                'UPDATE frameworks SET vote = %s WHERE id = %s',
-                (1 if voted else 0, framework_id)
+                'UPDATE frameworks SET approved = %s WHERE id = %s',
+                (vote, framework_id)
             )
             conn.commit()
             cursor.close()
@@ -151,4 +151,26 @@ class dbManager:
             print(f"Error updating framework status: {e}")
             return False
 
-    
+    def insertProposedFramework(title: str, body: str) -> int:
+        """
+        Inserts a new framework into the database
+        Args:
+            title: Title of the framework
+            body: Content/description of the framework
+        Returns: ID of the new framework if successful, None otherwise
+        """
+        try:
+            conn = mysql.connector.connect(**DB_CONFIG)
+            cursor = conn.cursor()
+            cursor.execute(
+                'INSERT INTO frameworks (title, body, approved, vote) VALUES (%s, %s, 0, 0)',
+                (title, body)
+            )
+            framework_id = cursor.lastrowid
+            conn.commit()
+            cursor.close()
+            conn.close()
+            return framework_id
+        except mysql.connector.Error as e:
+            print(f"Error inserting framework: {e}")
+            return None

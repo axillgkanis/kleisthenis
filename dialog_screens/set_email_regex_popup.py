@@ -24,11 +24,11 @@ class SetEmailRegexPopup(tk.Toplevel):
 
     def create_widgets(self):
         
-        tk.Label(self, text="Ορισμός Επιτρεπτών Email", font=("Helvetica", 12, "bold"),
-                 fg="white", bg="#1e1e1e").pack(pady=(0, 15))
+        tk.Label(self, text="ΟΡΙΣΜΟΣ ΕΠΙΤΡΕΠΤΩΝ EMAIL", font=("Helvetica", 12, "bold"),
+                 fg="white", bg="#1e1e1e").pack(pady=(40, 20))
 
         frame = tk.Frame(self, bg="#1e1e1e")
-        frame.pack(pady=(0, 20))
+        frame.pack(pady=(10, 20))
 
         
         tk.Entry(frame, textvariable=self.username, width=10).pack(side="left", padx=3)
