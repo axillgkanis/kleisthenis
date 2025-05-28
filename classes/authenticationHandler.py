@@ -2,7 +2,7 @@ import random
 import smtplib
 
 
-class AuthenticationHandler:
+class authenticationHandler:
     def __init__(self):
         """Initialize the AuthenticationHandler."""
         print("AuthenticationHandler initialized.")
