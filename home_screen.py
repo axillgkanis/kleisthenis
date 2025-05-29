@@ -48,7 +48,7 @@ class KleisthenisDashboard(ctk.CTk):
         user_hash_container.grid(row=0, column=0, pady=(10, 0))
 
         ctk.CTkLabel(user_hash_container, text="USER HASH:", font=ctk.CTkFont(size=14, weight="bold")).pack(side="left")
-        ctk.CTkLabel(user_hash_container, text="test test test", text_color="#22d3ee", font=ctk.CTkFont(size=14)).pack(side="left", padx=5)
+        ctk.CTkLabel(user_hash_container,text="591d6441b8348d3b8936b43dab0d382e7902b74278b7215409302ac90d0aa5ef",text_color="#22d3ee",font=ctk.CTkFont(size=14),wraplength=200 ).pack(side="left", padx=5)
 
         ctk.CTkLabel(self.sidebar, text="Menu", font=ctk.CTkFont(size=20, weight="bold"),text_color="white").grid(row=1, column=0, pady=20)
 
