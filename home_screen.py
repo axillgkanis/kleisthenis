@@ -13,30 +13,34 @@ from dialog_screens.set_email_regex_popup import SetEmailRegexPopup
 from dialog_screens.punish_user import PunishUserPopup
 from dialog_screens.PROPOSED_FRAMEWORKS_SCREEN import PROPOSED_FRAMEWORKS_SCREEN
 
-class KleisthenisDashboard(ctk.CTk):
+
+class INITIAL_SCREEN(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Kleisthenis Dashboard")
         self.geometry("1000x700")
 
-
-        self.configure(fg_color="#1e293b")  
-        self.grid_columnconfigure(0, weight=0) 
-        self.grid_columnconfigure(1, weight=1) 
-        self.grid_rowconfigure(0, weight=0)     
-        self.grid_rowconfigure(1, weight=1)     
+        self.configure(fg_color="#1e293b")
+        self.grid_columnconfigure(0, weight=0)
+        self.grid_columnconfigure(1, weight=1)
+        self.grid_rowconfigure(0, weight=0)
+        self.grid_rowconfigure(1, weight=1)
         self.header = ctk.CTkFrame(self, fg_color="#1e293b", height=50)
         self.header.grid(row=0, column=0, columnspan=2, sticky="new")
         self.header.grid_columnconfigure(0, weight=1)
         self.header.grid_columnconfigure(1, weight=0)
 
-        ctk.CTkLabel(self.header,text="KLEISTHENIS ADMIN DASHBOARD",font=ctk.CTkFont(size=18, weight="bold"),text_color="white").grid(row=0, column=0, padx=20, sticky="w")
+        ctk.CTkLabel(self.header, text="KLEISTHENIS ADMIN DASHBOARD", font=ctk.CTkFont(
+            size=18, weight="bold"), text_color="white").grid(row=0, column=0, padx=20, sticky="w")
         top_buttons = ctk.CTkFrame(self.header, fg_color="transparent")
         top_buttons.grid(row=0, column=1, padx=10, sticky="e")
 
-        ctk.CTkButton(top_buttons, text="Ορισμός Επιτρεπτών Εmail", command=self.open_email_regex, fg_color="#10b981").pack(side="left", padx=5)
-        ctk.CTkButton(top_buttons, text="Ορισμος Ποινής",command=self.open_punish_user, fg_color="#7c3aed").pack(side="left", padx=5)
-        ctk.CTkButton(top_buttons, text="Αποσύνδεση", fg_color="#ef4444", command=self.destroy).pack(side="left", padx=5)
+        ctk.CTkButton(top_buttons, text="Ορισμός Επιτρεπτών Εmail",
+                      command=self.open_email_regex, fg_color="#10b981").pack(side="left", padx=5)
+        ctk.CTkButton(top_buttons, text="Ορισμος Ποινής", command=self.open_punish_user,
+                      fg_color="#7c3aed").pack(side="left", padx=5)
+        ctk.CTkButton(top_buttons, text="Αποσύνδεση", fg_color="#ef4444",
+                      command=self.destroy).pack(side="left", padx=5)
 
         # Sidebar
         self.sidebar = ctk.CTkFrame(self, width=300, fg_color="#1e293b")
@@ -44,19 +48,28 @@ class KleisthenisDashboard(ctk.CTk):
         self.grid_columnconfigure(0, minsize=300)
         self.sidebar.grid_rowconfigure(7, weight=1)
 
-        user_hash_container = ctk.CTkFrame(self.sidebar, fg_color="transparent")
+        user_hash_container = ctk.CTkFrame(
+            self.sidebar, fg_color="transparent")
         user_hash_container.grid(row=0, column=0, pady=(10, 0))
 
-        ctk.CTkLabel(user_hash_container, text="USER HASH:", font=ctk.CTkFont(size=14, weight="bold")).pack(side="left")
-        ctk.CTkLabel(user_hash_container,text="591d6441b8348d3b8936b43dab0d382e7902b74278b7215409302ac90d0aa5ef",text_color="#22d3ee",font=ctk.CTkFont(size=14),wraplength=200 ).pack(side="left", padx=5)
+        ctk.CTkLabel(user_hash_container, text="USER HASH:",
+                     font=ctk.CTkFont(size=14, weight="bold")).pack(side="left")
+        ctk.CTkLabel(user_hash_container, text="591d6441b8348d3b8936b43dab0d382e7902b74278b7215409302ac90d0aa5ef",
+                     text_color="#22d3ee", font=ctk.CTkFont(size=14), wraplength=200).pack(side="left", padx=5)
 
-        ctk.CTkLabel(self.sidebar, text="Menu", font=ctk.CTkFont(size=20, weight="bold"),text_color="white").grid(row=1, column=0, pady=20)
+        ctk.CTkLabel(self.sidebar, text="Menu", font=ctk.CTkFont(
+            size=20, weight="bold"), text_color="white").grid(row=1, column=0, pady=20)
 
-        ctk.CTkButton(self.sidebar, text="Πλαίσια", command=self.show_frames).grid(row=2, column=0, pady=5)
-        ctk.CTkButton(self.sidebar, text="Ανακοινώσεις", command=self.show_announcements).grid(row=3, column=0, pady=5)
-        ctk.CTkButton(self.sidebar, text="Ορισμός Συνεδρίας", command=self.open_set_meeting).grid(row=4, column=0, pady=5)
-        ctk.CTkButton(self.sidebar, text="Προτεινόμενα Πλαίσια", command=self.show_proposed_frameworks).grid(row=5, column=0, pady=5)
-        ctk.CTkButton(self.sidebar, text="Πρόταση Πλαισίου", command=self.open_propose_popup).grid(row=6, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Πλαίσια",
+                      command=self.show_frames).grid(row=2, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Ανακοινώσεις",
+                      command=self.show_announcements).grid(row=3, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Ορισμός Συνεδρίας",
+                      command=self.open_set_meeting).grid(row=4, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Προτεινόμενα Πλαίσια",
+                      command=self.show_proposed_frameworks).grid(row=5, column=0, pady=5)
+        ctk.CTkButton(self.sidebar, text="Πρόταση Πλαισίου",
+                      command=self.open_propose_popup).grid(row=6, column=0, pady=5)
 
         # Calendar under Exit
         calendar_container = ctk.CTkFrame(self.sidebar, fg_color="transparent")
@@ -65,20 +78,19 @@ class KleisthenisDashboard(ctk.CTk):
         calendar_native = tk.Frame(calendar_container)
         calendar_native.pack()
 
-        self.calendar_widget = Calendar(calendar_native, selectmode="day", date_pattern="yyyy-mm-dd")
+        self.calendar_widget = Calendar(
+            calendar_native, selectmode="day", date_pattern="yyyy-mm-dd")
         self.calendar_widget.pack()
         self.calendar_widget.bind("<<CalendarSelected>>", self.on_date_hover)
 
         self.mark_calendar_events(self.calendar_widget)
 
-        
         logo_path = "Cleisthenes_Voting_Logo.png"
         if os.path.exists(logo_path):
             logo_image = ctk.CTkImage(Image.open(logo_path), size=(180, 180))
             logo_label = ctk.CTkLabel(self.sidebar, image=logo_image, text="")
             logo_label.grid(row=8, column=0, pady=(10, 20))
 
-       
         self.content = ctk.CTkFrame(self)
         self.content.grid(row=1, column=1, sticky="nsew")
         self.grid_columnconfigure(1, weight=1)
@@ -116,9 +128,11 @@ class KleisthenisDashboard(ctk.CTk):
         popup.grab_set()
 
     def open_email_regex(self):
-      SetEmailRegexPopup(self)
+        SetEmailRegexPopup(self)
+
     def open_punish_user(self):
-      PunishUserPopup(self)
+        PunishUserPopup(self)
+
     def load_meeting_data(self):
         if os.path.exists("meeting_data.json"):
             with open("meeting_data.json", "r", encoding="utf-8") as f:
@@ -144,7 +158,8 @@ class KleisthenisDashboard(ctk.CTk):
 
     def on_date_hover(self, event):
         selected_date = self.calendar_widget.get_date()
-        meeting_info = next((entry for entry in self.load_meeting_data() if entry["date"] == selected_date), None)
+        meeting_info = next((entry for entry in self.load_meeting_data(
+        ) if entry["date"] == selected_date), None)
 
         if meeting_info:
             message = f"Συνεδρία στις {selected_date}\nΈναρξη: {meeting_info.get('start_time')}\nΛήξη: {meeting_info.get('end_time')}\nΚατάσταση: {meeting_info.get('status')}"
@@ -152,6 +167,7 @@ class KleisthenisDashboard(ctk.CTk):
             message = f"Καμία προγραμματισμένη συνεδρία για {selected_date}."
 
         tk.messagebox.showinfo("Πληροφορίες Συνεδρίας", message)
+
 
 if __name__ == "__main__":
     app = KleisthenisDashboard()

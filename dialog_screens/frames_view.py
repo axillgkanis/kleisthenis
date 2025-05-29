@@ -6,6 +6,7 @@ import os
 
 DATA_FILE = "proposed_frames.json"
 
+
 class FramesView(ctk.CTkFrame):
     def __init__(self, parent):
         super().__init__(parent)
@@ -15,14 +16,17 @@ class FramesView(ctk.CTkFrame):
         self.search_var.trace("w", lambda *args: self.render_frame_list())
 
         # Τίτλος
-        ctk.CTkLabel(self, text="Πλαίσια", font=("Arial", 20, "bold")).pack(pady=(10, 5))
+        ctk.CTkLabel(self, text="Πλαίσια", font=(
+            "Arial", 20, "bold")).pack(pady=(10, 5))
 
         # Search / Filtering Entry
         search_frame = ctk.CTkFrame(self, fg_color="transparent")
         search_frame.pack(pady=(0, 10), fill="x", padx=20)
 
-        ctk.CTkLabel(search_frame, text="Search:", font=("Arial", 12)).pack(side="left", padx=5)
-        ctk.CTkEntry(search_frame, textvariable=self.search_var, width=300, placeholder_text="Filter by title...").pack(side="left")
+        ctk.CTkLabel(search_frame, text="Search:", font=(
+            "Arial", 12)).pack(side="left", padx=5)
+        ctk.CTkEntry(search_frame, textvariable=self.search_var, width=300,
+                     placeholder_text="Filter by title...").pack(side="left")
 
         # Frame List container
         self.list_container = ctk.CTkFrame(self, fg_color="transparent")
@@ -31,7 +35,6 @@ class FramesView(ctk.CTkFrame):
         # Κουμπιά Propose / View
         btns = ctk.CTkFrame(self, fg_color="transparent")
         btns.pack(pady=10)
-
 
         self.load_frames()
         self.render_frame_list()
@@ -55,7 +58,8 @@ class FramesView(ctk.CTkFrame):
         ]
 
         if not filtered:
-            ctk.CTkLabel(self.list_container, text="No frames found.", text_color="gray").pack(pady=10)
+            ctk.CTkLabel(self.list_container, text="No frames found.",
+                         text_color="gray").pack(pady=10)
             return
 
         for frame in filtered:

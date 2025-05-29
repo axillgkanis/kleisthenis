@@ -1,5 +1,5 @@
 from datetime import datetime
-from dbManager import DatabaseManager
+from classes.dbManager import DatabaseManager
 
 
 class MeetingHandler:

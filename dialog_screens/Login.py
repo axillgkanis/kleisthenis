@@ -3,7 +3,8 @@ from tkinter import messagebox
 import re
 from dialog_screens.authentication_frame import AuthenticationFrame
 
-class LoginScreen(tk.Frame):
+
+class LOG_IN_SCREEN(tk.Frame):
     def __init__(self, parent, on_submit_callback=None):
         super().__init__(parent, bg="#1e1e1e")
         self.parent = parent
@@ -18,11 +19,10 @@ class LoginScreen(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-       
+
         tk.Label(self, text="Σύνδεση", font=("Helvetica", 12, "bold"),
                  fg="white", bg="#1e1e1e").pack(pady=(40, 10))
 
-        
         tk.Label(self, text="email:", fg="white", bg="#1e1e1e").pack()
         tk.Entry(self, textvariable=self.email, width=30).pack(pady=(0, 10))
 
@@ -30,9 +30,9 @@ class LoginScreen(tk.Frame):
                        command=self.toggle_admin_entry, fg="white", bg="#1e1e1e",
                        selectcolor="#1e1e1e").pack(pady=5)
 
-        
         self.admin_frame = tk.Frame(self, bg="#1e1e1e")
-        self.admin_entry = tk.Entry(self.admin_frame, textvariable=self.admin_code, width=25, show="*")
+        self.admin_entry = tk.Entry(
+            self.admin_frame, textvariable=self.admin_code, width=25, show="*")
         self.admin_entry.pack(side="left", padx=(0, 5))
 
         self.eye_button = tk.Button(
@@ -84,16 +84,14 @@ class LoginScreen(tk.Frame):
         is_admin = self.is_admin.get()
         code = self.admin_code.get() if is_admin else None
 
-        
         pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$'
         if not re.match(pattern, email):
-            messagebox.showerror("Λάθος Email", "Εισάγετε σωστή διεύθυνση mail.")
+            messagebox.showerror(
+                "Λάθος Email", "Εισάγετε σωστή διεύθυνση mail.")
             return
 
-        
         for widget in self.winfo_children():
             widget.destroy()
 
-        
         auth = AuthenticationFrame(self, on_success=self.on_submit_callback)
         auth.pack(fill="both", expand=True)

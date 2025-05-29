@@ -1,15 +1,13 @@
-from dbManager import DatabaseManager
+from twoFactorAuthController import twoFactorAuthController
 
 
 class twoFactorAuthInterface:
     def __init__(self):
-        self.db_manager = DatabaseManager()
+        self.controller = twoFactorAuthController()
 
-    def createOtp(self, email: str):
-        print(f"Creating OTP for email: {email}")
-        self.db_manager.createOtp(email)
+    def signInProcedure(self, email: str):
+        # Check if the user is banned
+        self.controller.checkIfUserIsBanned(email)
 
-    def checkIfUserIsBanned(self, email: str):
-
-        print(f"Checking if user is banned for email: {email}")
-        self.db_manager.checkIfUserIsBanned(email)
+        # Create an OTP for the user
+        self.controller.createOtp(email)
