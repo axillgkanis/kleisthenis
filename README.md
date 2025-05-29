@@ -2,7 +2,7 @@
   <img src="Cleisthenes_Voting_Logo.png" alt="Project Logo" width="250"/>
 </div>
 
-# CLEISTHENES Voting Software
+# Cleisthenes Voting Application
 
 
 Πριν εκτελέσετε το πρόγραμμα, βεβαιωθείτε ότι έχετε εγκαταστήσει τα εξής:
