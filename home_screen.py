@@ -14,7 +14,7 @@ from dialog_screens.punish_user import PunishUserPopup
 from dialog_screens.PROPOSED_FRAMEWORKS_SCREEN import PROPOSED_FRAMEWORKS_SCREEN
 
 
-class KleisthenisDashboard(ctk.CTk):
+class INITIAL_SCREEN(ctk.CTk):
     def __init__(self):
         super().__init__()
         self.title("Kleisthenis Dashboard")
