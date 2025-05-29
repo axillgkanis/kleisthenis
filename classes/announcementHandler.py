@@ -1,4 +1,4 @@
-from dbManager import dbManager
+from classes.dbManager import dbManager
 
 
 class announcementHandler:

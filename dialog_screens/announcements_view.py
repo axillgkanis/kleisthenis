@@ -3,7 +3,8 @@ import json
 import os
 import tkinter.messagebox as messagebox
 from dialog_screens.announcement_popup import ANNOUNCEMENT_CREATION_SCREEN, EDIT_ANNOUNCEMENT_SCREEN
-from announcementHandler import annoucementHandler
+from classes.announcementHandler import announcementHandler
+
 
 class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
     def __init__(self, parent):
@@ -12,7 +13,8 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.announcements = []
         self.selected_index = None
 
-        ctk.CTkLabel(self, text="Ανακοινώσεις", font=("Arial", 20, "bold")).pack(pady=10)
+        ctk.CTkLabel(self, text="Ανακοινώσεις", font=(
+            "Arial", 20, "bold")).pack(pady=10)
 
         container = ctk.CTkFrame(self, fg_color="transparent")
         container.pack(fill="both", expand=True, padx=20, pady=10)
@@ -24,24 +26,28 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
         self.list_buttons = []
         self.displayAnnouncementsScreen()
 
-        ctk.CTkButton(self.list_panel, text="+ Δημιουργία Ανακοίνωσης", command=self.open_create_announcement_popup).pack(pady=10)
+        ctk.CTkButton(self.list_panel, text="+ Δημιουργία Ανακοίνωσης",
+                      command=self.open_create_announcement_popup).pack(pady=10)
 
         # Detail Panel (Right)
         self.detail_panel = ctk.CTkFrame(container)
         self.detail_panel.pack(side="left", fill="both", expand=True)
 
-        self.title_label = ctk.CTkLabel(self.detail_panel, text="", font=("Arial", 16, "bold"))
+        self.title_label = ctk.CTkLabel(
+            self.detail_panel, text="", font=("Arial", 16, "bold"))
         self.title_label.pack(pady=(10, 5))
 
-        self.body_label = ctk.CTkTextbox(self.detail_panel, height=200, wrap="word")
+        self.body_label = ctk.CTkTextbox(
+            self.detail_panel, height=200, wrap="word")
         self.body_label.pack(padx=10, pady=5, fill="both", expand=True)
         self.body_label.configure(state="disabled")
 
-        self.edit_button = ctk.CTkButton(self.detail_panel, text="Επεξεργασία", command=self.open_edit_announcement_popup)
+        self.edit_button = ctk.CTkButton(
+            self.detail_panel, text="Επεξεργασία", command=self.open_edit_announcement_popup)
         self.edit_button.pack(pady=5)
         self.edit_button.configure(state="disabled")
 
-    #helper function to load data
+    # helper function to load data
     def displayAnnouncementsScreen(self):
         for btn in self.list_buttons:
             btn.destroy()
@@ -64,7 +70,7 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
             self.list_buttons.append(row)
 
     def displayAnnouncements(self):
-        handler = annoucementHandler(None)
+        handler = announcementHandler(None)
         self.announcements = handler.searchAnnouncement()
         if self.announcements is None:
             self.announcements = []
@@ -81,14 +87,15 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
 
         self.edit_button.configure(state="normal")
 
-    #helper for create announcement pop up
+    # helper for create announcement pop up
     def open_create_announcement_popup(self):
         ANNOUNCEMENT_CREATION_SCREEN.displayCreateAnnouncement(self)
 
-    #helper for edit announcement pop up
+    # helper for edit announcement pop up
     def open_edit_announcement_popup(self):
         if self.selected_index is not None:
-            EDIT_ANNOUNCEMENT_SCREEN.displayEditAnnouncement(self, self.selected_index, self.announcements[self.selected_index])
+            EDIT_ANNOUNCEMENT_SCREEN.displayEditAnnouncement(
+                self, self.selected_index, self.announcements[self.selected_index])
 
     def save_data(self):
         with open("announcements.json", "w", encoding="utf-8") as f:
@@ -97,12 +104,12 @@ class ANNOUNCEMENT_SCREEN(ctk.CTkFrame):
     def delete_announcement(self, index):
         if 0 <= index < len(self.announcements):
             announcement_data = self.announcements[index]
-            handler = annoucementHandler(announcement_data)
-            
+            handler = announcementHandler(announcement_data)
+
             if handler.deleteAnnouncement():
                 deleted_title = announcement_data['title']
                 self.displayAnnouncementsScreen()
-                
+
                 # Clear the detail panel
                 self.title_label.configure(text="")
                 self.body_label.configure(state="normal")

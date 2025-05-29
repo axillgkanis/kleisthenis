@@ -1,5 +1,5 @@
 import mysql.connector
-from dbManager import dbManager
+from classes.dbManager import dbManager
 from dialog_screens.DIALOGUE_SCREEN import DIALOGUE
 from classes.blockchain import Blockchain
 
@@ -49,7 +49,7 @@ class frameManager:
             print(f"Error creating vote: {e}")
             return False
 
-    def proposeFrame(self, title, body):
+    def proposeFramework(self, title, body):
         try:
             # Insert new framework into database
             new_framework_id = dbManager.insertProposedFramework(title, body)
