@@ -16,15 +16,12 @@
             "timestamp": 1748032293.8420568,
             "data": {
                 "block_type": "topic",
-                "topic_id": "topic-1",
+                "topic_id": "1",
                 "title": "Best Programming Language",
                 "description": "Vote for your favorite programming language",
                 "options": [
-                    "Python",
-                    "JavaScript",
-                    "Java",
-                    "C++",
-                    "Go"
+                    "yes",
+                    "no"
                 ]
             },
             "previous_hash": "00c67e20e53e584ff1509b2d09d6c40f81afe922eeadc92ff5fb368aa480f3fa",
@@ -36,7 +33,7 @@
             "timestamp": 1748032293.8494549,
             "data": {
                 "block_type": "topic",
-                "topic_id": "topic-1",
+                "topic_id": "2",
                 "title": "Best Framework",
                 "description": "Vote for the best framework",
                 "options": [
@@ -53,8 +50,8 @@
             "timestamp": 1748032293.8571095,
             "data": {
                 "block_type": "vote",
-                "topic_id": "topic-1",
-                "voter_id": "voter-1",
+                "topic_id": "1",
+                "voter_id": "591d6441b8348d3b8936b43dab0d382e7902b74278b7215409302ac90d0aa5ef",
                 "vote_choice": "yes"
             },
             "previous_hash": "00e5d4d9d97def8dc3839c0dd1542e3f08f0a2f7f511addca941899b43a1b80e",
@@ -66,8 +63,8 @@
             "timestamp": 1748032293.8583605,
             "data": {
                 "block_type": "vote",
-                "topic_id": "topic-1",
-                "voter_id": "voter-2",
+                "topic_id": "2",
+                "voter_id": "591d6441b8348d3b8936b43dab0d382e7902b74278b7215409302ac90d0aa5ef",
                 "vote_choice": "no"
             },
             "previous_hash": "00bddb65e0a6cd1fda80103e1437275afbab632d55a1d13da95eb94342193080",
