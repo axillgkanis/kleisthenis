@@ -14,6 +14,8 @@ DB_CONFIG = {
 }
 
 # Database setup function
+
+
 def setup_database():
     conn = mysql.connector.connect(
         host=DB_CONFIG['host'],
@@ -21,7 +23,8 @@ def setup_database():
         password=DB_CONFIG['password']
     )
     cursor = conn.cursor()
-    
+
+
 class dbManager:
     def __init__(self):
         self.conn = mysql.connector.connect(**DB_CONFIG)
@@ -32,7 +35,8 @@ class dbManager:
         try:
             conn = mysql.connector.connect(**DB_CONFIG)
             cursor = conn.cursor(dictionary=True)
-            cursor.execute('SELECT * FROM announcements ORDER BY date_created DESC')
+            cursor.execute(
+                'SELECT * FROM announcements ORDER BY date_created DESC')
             announcements = cursor.fetchall()
             cursor.close()
             conn.close()
@@ -174,3 +178,50 @@ class dbManager:
         except mysql.connector.Error as e:
             print(f"Error inserting framework: {e}")
             return None
+
+    def queryEmailRegex(self):
+        print("Querying email regex from the database.")
+
+    def queryAccess(self):
+        print("Querying access details from the database.")
+
+    def queryFrameworks(self):
+        print("Querying frameworks from the database.")
+
+    def queryFrameworkDetails(self, framework_id):
+        print(f"Querying details for framework ID: {framework_id}.")
+
+    def queryBannedEmails(self):
+        print("Querying banned emails from the database.")
+
+    def saveOTP(self, email, otp):
+        print(f"Saving OTP {otp} for email {email}.")
+
+    def queryAnnouncements(self):
+        print("Querying announcements from the database.")
+
+    def insertAnnouncement(self, announcement_data):
+        print(f"Inserting announcement: {announcement_data}.")
+
+    def modifyAnnouncement(self, announcement_id, updated_data):
+        print(
+            f"Modifying announcement ID {announcement_id} with data {updated_data}.")
+
+    def deleteAnnouncement(self, announcement_id):
+        print(f"Deleting announcement ID {announcement_id}.")
+
+    def queryPassword(self, email):
+        print(f"Querying password for email: {email}.")
+
+    def insertMeeting(self, meeting_data):
+        print(f"Inserting meeting: {meeting_data}.")
+
+    def insertPenalty(self, penalty_data):
+        print(f"Inserting penalty: {penalty_data}.")
+
+    def insertRegexEmail(self, regex_data):
+        print(f"Inserting regex email: {regex_data}.")
+
+    def updateFrameworkToSettled(self, framework_id, verdict):
+        print(
+            f"Updating framework ID {framework_id} to settled with verdict {verdict}.")
