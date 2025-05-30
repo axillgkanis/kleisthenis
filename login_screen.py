@@ -1,6 +1,6 @@
 import tkinter as tk
-from dialog_screens.Login import LOG_IN_SCREEN
-from home_screen import INITIAL_SCREEN
+from gui.Login import LOG_IN_SCREEN
+from gui.home_screen import INITIAL_SCREEN
 
 
 def launch_dashboard():
